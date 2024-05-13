@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!-- Titulo en el navegador -->
+    <title>MathRun VideoGame</title>
+    <!-- Icono en el navegador -->
+    <link rel="shortcut icon" href="TemplateData/run-character.ico">
+    <!-- Enlaza a la hoja de estilos -->
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body>
+    <!-- Contenedor principal para el juego Unity WebGL. -->
+    <div id="unity-container" class="unity-desktop">
+      <!-- renderiza el contenido del juego en el navegador. -->
+      <canvas id="unity-canvas" tabindex="-1"></canvas>
+      <!-- Barra de carga que muestra el progreso de la carga del juego. -->
+      <div id="unity-loading-bar">
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-warning"> </div>
+    </div>
+    <script>
+
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var warningBanner = document.querySelector("#unity-warning");
+
+      function unityShowBanner(msg, type) {
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/Build_MathRun.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/Build_MathRun.data",
+        frameworkUrl: buildUrl + "/Build_MathRun.framework.js",
+        codeUrl: buildUrl + "/Build_MathRun.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "MathRun",
+        productVersion: "0.1",
+        showBanner: unityShowBanner,
+      };
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
+
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        container.className = "unity-mobile";
+        canvas.className = "unity-mobile";
+      } else {
+        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
+        canvas.style.width = "100%";
+        canvas.style.height = "100%";
+      }
+
+      loadingBar.style.display = "block";
+
+      // Al presionar la tecla f se activa y desactiva la pantalla completa del juego.
+      var isFullScreen = false;
+      document.addEventListener('keypress', function(event) {
+          // Verificar si la tecla presionada es la tecla "f"
+          if (event.key === 'f' || event.key === 'F') {
+              // Obtener el elemento canvas
+              var canvas = document.getElementById('unity-canvas');
+              
+              // Verificar el estado actual de pantalla completa
+              if (!isFullScreen) {
+                  // Si no está en pantalla completa, solicitar la entrada en pantalla completa
+                  if (canvas.requestFullscreen) {
+                      canvas.requestFullscreen();
+                  } else if (canvas.mozRequestFullScreen) { /* Firefox */
+                      canvas.mozRequestFullScreen();
+                  } else if (canvas.webkitRequestFullscreen) { /* Chrome, Safari y Opera */
+                      canvas.webkitRequestFullscreen();
+                  } else if (canvas.msRequestFullscreen) { /* Internet Explorer/Edge */
+                      canvas.msRequestFullscreen();
+                  }
+                  // Actualizar el estado a pantalla completa
+                  isFullScreen = true;
+              } else {
+                  // Si está en pantalla completa, salir de ella
+                  if (document.exitFullscreen) {
+                      document.exitFullscreen();
+                  } else if (document.mozCancelFullScreen) { /* Firefox */
+                      document.mozCancelFullScreen();
+                  } else if (document.webkitExitFullscreen) { /* Chrome, Safari y Opera */
+                      document.webkitExitFullscreen();
+                  } else if (document.msExitFullscreen) { /* Internet Explorer/Edge */
+                      document.msExitFullscreen();
+                  }
+                  // Actualizar el estado a no estar en pantalla completa
+                  isFullScreen = false;
+              }
+          }
+      });
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+              }).then((unityInstance) => {
+                // This is needed to make the Unity Firebase WebGL Library work properly
+                this.unityInstance = unityInstance;
+                loadingBar.style.display = "none";
+              }).catch((message) => {
+                alert(message);
+              });
+            };
+      document.body.appendChild(script);
+    </script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script type="module">
+      const firebaseConfig = {
+        apiKey: "AIzaSyCJVcZS-u7QQ4uSawiivr2okBW8JqkQBxc",
+        authDomain: "mathrunvideogame.firebaseapp.com",
+        projectId: "mathrunvideogame",
+        storageBucket: "mathrunvideogame.appspot.com",
+        messagingSenderId: "1030963993155",
+        appId: "1:1030963993155:web:0379edf3bd2bb63365d2f6"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+  </body>
+</html>
