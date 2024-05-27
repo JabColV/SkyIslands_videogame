@@ -8,7 +8,10 @@ mergeInto(LibraryManager.library, {
         try {
             var provider = new firebase.auth.GoogleAuthProvider();
             firebase.auth().signInWithPopup(provider).then(function (result) {
-                unityInstance.Module.SendMessage(parsedObjectName, parsedCallback, result.user.displayName);
+                var user = result.user;
+                var userId = user.uid;
+                var userName = user.displayName;
+                unityInstance.Module.SendMessage(parsedObjectName, parsedCallback, JSON.stringify({ userId: userId, userName: userName }));
             }).catch(function (error) {
                 unityInstance.Module.SendMessage(parsedObjectName, parsedFallback, JSON.stringify(error, Object.getOwnPropertyNames(error)));
             });
