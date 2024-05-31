@@ -5,9 +5,10 @@ using System.Runtime.InteropServices;
 
 public class FirebaseDatabase : MonoBehaviour
 {
+    FollowPlayer player;
     FirebaseAuth firebaseAuth;
     SystemPickingUp systemPickingUp;
-    public GameObject player;
+    // public GameObject player;
     StoredUserData dataUser;
     public static FirebaseDatabase Instance;
 
@@ -61,6 +62,7 @@ public class FirebaseDatabase : MonoBehaviour
     {
         firebaseAuth = FirebaseAuth.Instance;
         systemPickingUp = SystemPickingUp.Instance;
+        player = FollowPlayer.Instance;
     }
 
     public void SaveData()
@@ -74,7 +76,7 @@ public class FirebaseDatabase : MonoBehaviour
             int totalVidas = dataUser.vidas;
 
             // Crear un nuevo objeto StoredUserData para la serialización
-            var data = new StoredUserData(firebaseAuth.GetUserData().userId, firebaseAuth.GetUserData().userName, totalCoins, totalVidas, player.transform.position);
+            var data = new StoredUserData(firebaseAuth.GetUserData().userId, firebaseAuth.GetUserData().userName, totalCoins, totalVidas, player.GetPlayer().transform.position);
 
             string path = "users/" + data.id;
 
@@ -86,6 +88,8 @@ public class FirebaseDatabase : MonoBehaviour
         else
         {
             Debug.LogError("UserData is null");
+            Debug.LogError("userData " + firebaseAuth.GetUserData().userId);
+            Debug.LogError("dataUser " + dataUser.totalCoins);
         }
     }
 

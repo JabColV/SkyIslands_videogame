@@ -30,7 +30,6 @@ public class SystemPickingUp : MonoBehaviour
         if (database.GetDataUserInfo() != null)
         {
             coins = database.GetDataUserInfo().totalCoins;
-            Debug.Log("Coins - SystemPickingUp: " + coins);
         }
     }
     
