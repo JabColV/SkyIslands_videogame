@@ -75,7 +75,7 @@ public class FirebaseAuth : MonoBehaviour
             
             // Espera hasta que los datos estén cargados
             yield return new WaitUntil(() => database.dataUser != null);
-            Debug.Log("Data loaded" + database.dataUser);
+            Debug.Log("Data loaded" + database.dataUser.totalCoins);
 
             if (database.dataUser != null){
                 // Desactivar el objeto de inicio de sesión 
