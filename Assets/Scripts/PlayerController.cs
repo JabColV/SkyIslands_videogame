@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     // To store the movement in x and y axis
     public float x, y;
     // To store the database object
-    public FirebaseDatabase database;
+    FirebaseDatabase database;
     // To store the islands that the character has collided with
     private HashSet<GameObject> collidedIslands = new HashSet<GameObject>();
 
@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         // To get the character's animator 
         anim = GetComponent<Animator>();
+        // To get the database object
+        database = FirebaseDatabase.Instance;
     }
 
     private void OnTriggerEnter(Collider other)

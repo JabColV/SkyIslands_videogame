@@ -531,9 +531,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2a7e830887058cd4490eec3ed9a36505, type: 3}
       insertIndex: -1
       addedObject: {fileID: 109386613}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2a7e830887058cd4490eec3ed9a36505, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 109386615}
   m_SourcePrefab: {fileID: 100100000, guid: 2a7e830887058cd4490eec3ed9a36505, type: 3}
 --- !u!1 &109386605 stripped
 GameObject:
@@ -605,7 +602,6 @@ MonoBehaviour:
   RotationSpeed: 200
   x: 0
   y: 0
-  database: {fileID: 109386615}
 --- !u!95 &109386612
 Animator:
   serializedVersion: 5
@@ -641,25 +637,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinsText: {fileID: 1845680025}
   coins: 0
---- !u!114 &109386615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 109386605}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0989e9bce64c9f84aa958ff8181eb6bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 109386605}
-  dataUser:
-    id: 
-    name: 
-    totalCoins: 0
-    vidas: 0
-    position: {x: 0, y: 0, z: 0}
 --- !u!1001 &110310898
 PrefabInstance:
   m_ObjectHideFlags: 0
