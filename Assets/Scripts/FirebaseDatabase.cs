@@ -8,7 +8,7 @@ public class FirebaseDatabase : MonoBehaviour
     FirebaseAuth firebaseAuth;
     SystemPickingUp systemPickingUp;
     public GameObject player;
-    public StoredUserData dataUser;
+    StoredUserData dataUser = null;
     public static FirebaseDatabase Instance;
 
     [DllImport("__Internal")]
@@ -34,6 +34,10 @@ public class FirebaseDatabase : MonoBehaviour
             this.vidas = vidas;
             this.position = position;
         }
+    }
+
+    public StoredUserData GetDataUserInfo (){
+        return dataUser;
     }
 
     private void Awake()
@@ -85,6 +89,7 @@ public class FirebaseDatabase : MonoBehaviour
         {
             // Crear ruta para obtener los datos del usuario
             string path = "users/" + firebaseAuth.userData.userId;
+            Debug.Log("GetData: Path - " + path);
             // Llamar a la función GetJSON para obtener los datos del usuario
             GetJSON(path, gameObject.name, "OnSaveSuccessGet", "OnSaveErrorGet");
         }
@@ -96,7 +101,7 @@ public class FirebaseDatabase : MonoBehaviour
 
     void OnSaveSuccessPost(string message)
     {
-        Debug.Log(message);
+        Debug.Log("Desde OnSaveSuccessPost "+message);
     }
 
     void OnSaveErrorPost(string error)
@@ -106,12 +111,15 @@ public class FirebaseDatabase : MonoBehaviour
 
     void OnSaveSuccessGet(string userDataJson)
     {
+        Debug.Log("Desde OnSaveSuccessGet "+ userDataJson);
         dataUser = JsonUtility.FromJson<StoredUserData>(userDataJson);
-        Debug.Log("Se traen los datos - Coins: " + dataUser.totalCoins);
+        Debug.Log("database - Data loaded - coins " + dataUser.totalCoins);
+        Debug.Log("database - Data loaded - name " + dataUser.name);
+        Debug.Log("database - Data loaded - lives " + dataUser.vidas);
     }
 
     void OnSaveErrorGet(string error)
     {
-        Debug.LogError(error);
+        Debug.Log("Ha ocurrido un error al tratar de obtener los datos del usuario " + error);
     }
 }

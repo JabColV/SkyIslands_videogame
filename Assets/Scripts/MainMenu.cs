@@ -28,11 +28,11 @@ public class MainMenu : MonoBehaviour
     private void LoadUserData()
     {
         // Asignar el nombre del usuario a un objeto Text, si FirebaseAuth.Instance.userData no es nulo
-        if (database.dataUser != null)
+        if (database.GetDataUserInfo() != null)
         {
             // Asignar la cantidad de monedas recogidas a un objeto Text
-            scoreText.text = database.dataUser.totalCoins.ToString();
-            nameText.text = "Bienvenido usuario " + database.dataUser.name;
+            scoreText.text = database.GetDataUserInfo().totalCoins.ToString();
+            nameText.text = "Bienvenido usuario " + database.GetDataUserInfo().name;
         }
         else
         {
