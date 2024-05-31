@@ -1,9 +1,9 @@
 mergeInto(LibraryManager.library, {
 
     SignInWithGoogle: function (objectName, callback, fallback) {
-        var parsedObjectName = Pointer_stringify(objectName);
-        var parsedCallback = Pointer_stringify(callback);
-        var parsedFallback = Pointer_stringify(fallback);
+        var parsedObjectName = UTF8ToString(objectName);
+        var parsedCallback = UTF8ToString(callback);
+        var parsedFallback = UTF8ToString(fallback);
 
         try {
             var provider = new firebase.auth.GoogleAuthProvider();
