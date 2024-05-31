@@ -74,14 +74,17 @@ public class FirebaseAuth : MonoBehaviour
             Debug.Log("Getting data...");
             
             // Espera hasta que los datos estén cargados
-            yield return new WaitUntil(() => database.dataUser != null);
-            Debug.Log("Data loaded" + database.dataUser.totalCoins);
+            yield return new WaitUntil(() => database.GetDataUserInfo() != null);
 
-            if (database.dataUser != null){
+            if (database.GetDataUserInfo() != null){
                 // Desactivar el objeto de inicio de sesión 
                 WelcomeInterface.SetActive(false);
                 // Activar el objeto de la escena principal
                 MainInterface.SetActive(true);
+
+                Debug.Log("Data loaded - coins " + database.GetDataUserInfo().totalCoins);
+                Debug.Log("Data loaded - name " + database.GetDataUserInfo().name);
+                Debug.Log("Data loaded - lives " + database.GetDataUserInfo().vidas);
             }
         }
         else
