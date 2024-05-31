@@ -5,18 +5,20 @@ using System.Runtime.InteropServices;
 
 public class FirebaseDatabase : MonoBehaviour
 {
-    FollowPlayer player;
+    GameObject player;
     FirebaseAuth firebaseAuth;
     SystemPickingUp systemPickingUp;
-    // public GameObject player;
     StoredUserData dataUser;
     public static FirebaseDatabase Instance;
+
+    [DllImport("__Internal")]
+    private static extern void GetJSON(string path, string objectName, string callback, string fallback);
 
     [DllImport("__Internal")]
     private static extern void PostJSON(string path, string value, string objectName, string callback, string fallback);
     
     [DllImport("__Internal")]
-    private static extern void GetJSON(string path, string objectName, string callback, string fallback);
+    private static extern void UpdateJSON(string path, string value, string objectName, string callback, string fallback);
 
     [System.Serializable]
     public class StoredUserData
@@ -62,35 +64,12 @@ public class FirebaseDatabase : MonoBehaviour
     {
         firebaseAuth = FirebaseAuth.Instance;
         systemPickingUp = SystemPickingUp.Instance;
-        player = FollowPlayer.Instance;
+        // player = FollowPlayer.Instance;
     }
 
-    public void SaveData()
+    public void SetPlayer(GameObject playerInstance)
     {
-        if (firebaseAuth.GetUserData() != null && dataUser != null)
-        {
-            // Sumar las nuevas monedas a las existentes
-            int totalCoins = dataUser.totalCoins + systemPickingUp.coins;   
-
-            // Sumar las restar las vidas
-            int totalVidas = dataUser.vidas;
-
-            // Crear un nuevo objeto StoredUserData para la serialización
-            var data = new StoredUserData(firebaseAuth.GetUserData().userId, firebaseAuth.GetUserData().userName, totalCoins, totalVidas, player.GetPlayer().transform.position);
-
-            string path = "users/" + data.id;
-
-            // Convertir el objeto a una cadena JSON usando JsonUtility
-            string value = JsonUtility.ToJson(data);
-
-            PostJSON(path, value, gameObject.name, "OnSaveSuccessPost", "OnSaveErrorPost");
-        }
-        else
-        {
-            Debug.LogError("UserData is null");
-            Debug.LogError("userData " + firebaseAuth.GetUserData().userId);
-            Debug.LogError("dataUser " + dataUser.totalCoins);
-        }
+        player = playerInstance;
     }
 
     public void GetData()
@@ -108,31 +87,89 @@ public class FirebaseDatabase : MonoBehaviour
         }
     }
 
-    void OnSaveSuccessPost(string message)
+    public void CreateData()
     {
-        Debug.Log("Desde OnSaveSuccessPost "+message);
+        if (firebaseAuth.GetUserData() != null)
+        {
+            // Crear un nuevo objeto StoredUserData para la serialización
+            dataUser = new StoredUserData(firebaseAuth.GetUserData().userId, firebaseAuth.GetUserData().userName, 0, 0, new Vector3(0, 0, 0));
+            // Crear la ruta para crear los datos del usuario
+            string path = "users/" + dataUser.id;
+            // Convertir el objeto a una cadena JSON usando JsonUtility
+            string value = JsonUtility.ToJson(dataUser);
+            // Llamar a la función PostJSON para crear los datos del usuario
+            PostJSON(path, value, gameObject.name, "OnSaveSuccessCreate", "OnSaveErrorCreate");
+        }
+        else
+        {
+            Debug.LogError("UserData is null");
+        }
     }
 
-    void OnSaveErrorPost(string error)
+
+    public void UpdateData()
     {
-        Debug.LogError(error);
+        if (firebaseAuth.GetUserData() != null && dataUser != null)
+        {
+            // Sumar las nuevas monedas a las existentes
+            int totalCoins = dataUser.totalCoins + systemPickingUp.coins;   
+            // Sumar las restar las vidas
+            int totalVidas = dataUser.vidas;
+            // Crear un nuevo objeto StoredUserData para la serialización
+            var data = new StoredUserData(firebaseAuth.GetUserData().userId, firebaseAuth.GetUserData().userName, totalCoins, totalVidas, player.transform.position);
+            // Crear la ruta para actualizar los datos del usuario
+            string path = "users/" + data.id;
+            // Convertir el objeto a una cadena JSON usando JsonUtility
+            string value = JsonUtility.ToJson(data);
+            // Llamar a la función UpdateJSON para actualizar los datos del usuario
+            UpdateJSON(path, value, gameObject.name, "OnSaveSuccessUpdate", "OnSaveErrorUpdate");
+        }
+        else
+        {
+            Debug.LogError("UserData is null");
+            Debug.LogError("userData " + firebaseAuth.GetUserData().userId);
+            Debug.LogError("dataUser " + dataUser.totalCoins);
+        }
     }
 
     void OnSaveSuccessGet(string userDataJson)
     {
-        if (userDataJson == null)
+        if (string.IsNullOrEmpty(userDataJson))
         {
-            dataUser = new StoredUserData(firebaseAuth.GetUserData().userId, firebaseAuth.GetUserData().userName, 0, 0, new Vector3(0, 0, 0));
+            CreateData();
         }
-        Debug.Log("Desde OnSaveSuccessGet "+ userDataJson);
-        dataUser = JsonUtility.FromJson<StoredUserData>(userDataJson);
-        Debug.Log("database - Data loaded - coins " + dataUser.totalCoins);
-        Debug.Log("database - Data loaded - name " + dataUser.name);
-        Debug.Log("database - Data loaded - lives " + dataUser.vidas);
+        else
+        {
+            Debug.Log("Desde OnSaveSuccessGet " + userDataJson);
+            dataUser = JsonUtility.FromJson<StoredUserData>(userDataJson);
+            Debug.Log("database - Data loaded - coins " + dataUser.totalCoins);
+            Debug.Log("database - Data loaded - name " + dataUser.name);
+            Debug.Log("database - Data loaded - lives " + dataUser.vidas);
+        }
     }
 
     void OnSaveErrorGet(string error)
     {
         Debug.Log("Ha ocurrido un error al tratar de obtener los datos del usuario " + error);
+    }
+
+    void OnSaveSuccessCreate(string message)
+    {
+        Debug.Log("Desde OnSaveSuccessCreate "+ message);
+    }
+
+    void OnSaveErrorCreate(string error)
+    {
+        Debug.LogError(error);
+    }
+
+    void OnSaveSuccessUpdate(string message)
+    {
+        Debug.Log("Desde OnSaveSuccessUpdate "+ message);
+    }
+
+    void OnSaveErrorUpdate(string error)
+    {
+        Debug.LogError(error);
     }
 }

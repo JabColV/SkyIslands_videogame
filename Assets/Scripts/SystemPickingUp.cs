@@ -7,7 +7,7 @@ public class SystemPickingUp : MonoBehaviour
 {
     FirebaseDatabase database;
     public TMP_Text coinsText;
-    public int coins;
+    public int coins = 0;
     public static SystemPickingUp Instance;
 
 
@@ -27,10 +27,6 @@ public class SystemPickingUp : MonoBehaviour
     void Start()
     {
         database = FirebaseDatabase.Instance;
-        if (database.GetDataUserInfo() != null)
-        {
-            coins = database.GetDataUserInfo().totalCoins;
-        }
     }
     
     private void OnTriggerEnter(Collider other)
