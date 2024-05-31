@@ -65,10 +65,10 @@ public class FirebaseDatabase : MonoBehaviour
 
     public void SaveData()
     {
-        if (firebaseAuth.userData != null)
+        if (firebaseAuth.GetUserData() != null)
         {
             // Crear un nuevo objeto StoredUserData para la serialización
-            var data = new StoredUserData(firebaseAuth.userData.userId, firebaseAuth.userData.userName, dataUser.totalCoins + systemPickingUp.coins, 0, player.transform.position);
+            var data = new StoredUserData(firebaseAuth.GetUserData().userId, firebaseAuth.GetUserData().userName, dataUser.totalCoins + systemPickingUp.coins, 0, player.transform.position);
 
             string path = "users/" + data.id;
 
@@ -85,11 +85,10 @@ public class FirebaseDatabase : MonoBehaviour
 
     public void GetData()
     {
-        if (firebaseAuth.userData != null)
+        if (firebaseAuth.GetUserData() != null)
         {
             // Crear ruta para obtener los datos del usuario
-            string path = "users/" + firebaseAuth.userData.userId;
-            Debug.Log("GetData: Path - " + path);
+            string path = "users/" + firebaseAuth.GetUserData().userId;
             // Llamar a la función GetJSON para obtener los datos del usuario
             GetJSON(path, gameObject.name, "OnSaveSuccessGet", "OnSaveErrorGet");
         }
