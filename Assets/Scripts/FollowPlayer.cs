@@ -6,10 +6,10 @@ public class FollowPlayer : MonoBehaviour
 {
     public GameObject player;
     private Vector3 offset = new Vector3(0,16,25);
-    // Start is called before the first frame update
-    void Start()
+    
+    void Awake()
     {
-        
+        DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame

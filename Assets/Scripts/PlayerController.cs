@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     // To use some properties from the character's rigidbody 
     private Rigidbody rb;
+    // To know when the character is jumping
     bool isJumpping = false;
     // To know when the character is touching the ground
     bool floorDetected = false;
@@ -19,6 +20,11 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     // To store the movement in x and y axis
     public float x, y;
+    // To store the database object
+    public FirebaseDatabase database;
+    // To store the islands that the character has collided with
+    private HashSet<GameObject> collidedIslands = new HashSet<GameObject>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +32,15 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         // To get the character's animator 
         anim = GetComponent<Animator>();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Island") && !collidedIslands.Contains(other.gameObject))
+        {
+            collidedIslands.Add(other.gameObject);
+            database.SaveData();
+        }
     }
 
     // Update is called once per frame
