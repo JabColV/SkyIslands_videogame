@@ -8,7 +8,7 @@ public class FirebaseDatabase : MonoBehaviour
     FirebaseAuth firebaseAuth;
     SystemPickingUp systemPickingUp;
     public GameObject player;
-    StoredUserData dataUser = null;
+    StoredUserData dataUser;
     public static FirebaseDatabase Instance;
 
     [DllImport("__Internal")]
@@ -65,10 +65,16 @@ public class FirebaseDatabase : MonoBehaviour
 
     public void SaveData()
     {
-        if (firebaseAuth.GetUserData() != null)
+        if (firebaseAuth.GetUserData() != null && dataUser != null)
         {
+            // Sumar las nuevas monedas a las existentes
+            int totalCoins = dataUser.totalCoins + systemPickingUp.coins;   
+
+            // Sumar las restar las vidas
+            int totalVidas = dataUser.vidas;
+
             // Crear un nuevo objeto StoredUserData para la serialización
-            var data = new StoredUserData(firebaseAuth.GetUserData().userId, firebaseAuth.GetUserData().userName, dataUser.totalCoins + systemPickingUp.coins, 0, player.transform.position);
+            var data = new StoredUserData(firebaseAuth.GetUserData().userId, firebaseAuth.GetUserData().userName, totalCoins, totalVidas, player.transform.position);
 
             string path = "users/" + data.id;
 
@@ -110,6 +116,10 @@ public class FirebaseDatabase : MonoBehaviour
 
     void OnSaveSuccessGet(string userDataJson)
     {
+        if (userDataJson == null)
+        {
+            dataUser = new StoredUserData(firebaseAuth.GetUserData().userId, firebaseAuth.GetUserData().userName, 0, 0, new Vector3(0, 0, 0));
+        }
         Debug.Log("Desde OnSaveSuccessGet "+ userDataJson);
         dataUser = JsonUtility.FromJson<StoredUserData>(userDataJson);
         Debug.Log("database - Data loaded - coins " + dataUser.totalCoins);
