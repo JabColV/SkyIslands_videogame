@@ -34,6 +34,12 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         // To get the database object
         database = FirebaseDatabase.Instance;
+        // To set the player in the database
+        if (database != null)
+        {
+            database.SetPlayer(this.gameObject); 
+            Debug.Log("Player set in database", this.gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -41,7 +47,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Island") && !collidedIslands.Contains(other.gameObject))
         {
             collidedIslands.Add(other.gameObject);
-            database.SaveData();
+            database.UpdateData();
         }
     }
 

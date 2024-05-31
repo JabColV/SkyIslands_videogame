@@ -2885,9 +2885,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WelcomeInterface: {fileID: 1728072323}
   MainInterface: {fileID: 2114218125}
-  userData:
-    userId: 
-    userName: 
 --- !u!114 &1051482186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2900,13 +2897,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0989e9bce64c9f84aa958ff8181eb6bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  dataUser:
-    id: 
-    name: 
-    totalCoins: 1000
-    vidas: 0
-    position: {x: 0, y: 0, z: 0}
 --- !u!1 &1057839975
 GameObject:
   m_ObjectHideFlags: 0
