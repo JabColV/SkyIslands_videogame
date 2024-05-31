@@ -9,7 +9,7 @@ public class FirebaseAuth : MonoBehaviour
     FirebaseDatabase database;
     public GameObject WelcomeInterface;
     public GameObject MainInterface;
-    public UserData userData;
+    UserData userData;
     public static FirebaseAuth Instance;
 
     [DllImport("__Internal")]
@@ -58,6 +58,10 @@ public class FirebaseAuth : MonoBehaviour
         {
             Debug.LogError("MainInterface no está asignado.");
         }
+    }
+
+    public UserData GetUserData(){
+        return userData;
     }
 
     public void SignIn()
