@@ -5,11 +5,8 @@ using System.Runtime.InteropServices;
 
 public class FirebaseDatabase : MonoBehaviour
 {
-    GameObject player;
-    FirebaseAuth firebaseAuth;
-    SystemPickingUp systemPickingUp;
     StoredUserData dataUser;
-    public static FirebaseDatabase Instance;
+    SingletonPattern singletonPattern;
 
     [DllImport("__Internal")]
     private static extern void GetJSON(string path, string objectName, string callback, string fallback);
@@ -39,45 +36,21 @@ public class FirebaseDatabase : MonoBehaviour
         }
     }
 
-    public StoredUserData GetDataUserInfo (){
+    public StoredUserData GetDataUserInfo(){
         return dataUser;
-    }
-
-    private void Awake()
-    {
-        // Verificar si ya existe una instancia de FirebaseAuth
-        if (Instance == null)
-        {
-            // Si no existe, asignar esta instancia a la variable Instance 
-            Instance = this;
-            // y no destruir el objeto al cargar una nueva escena
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            // Si ya existe una instancia de FirebaseAuth, destruir este objeto
-            Destroy(gameObject);
-        }
     }
 
     private void Start()
     {
-        firebaseAuth = FirebaseAuth.Instance;
-        systemPickingUp = SystemPickingUp.Instance;
-        // player = FollowPlayer.Instance;
-    }
-
-    public void SetPlayer(GameObject playerInstance)
-    {
-        player = playerInstance;
+        singletonPattern = SingletonPattern.Instance;
     }
 
     public void GetData()
     {
-        if (firebaseAuth.GetUserData() != null)
+        if (singletonPattern.GetFirebaseAuth().GetUserData() != null)
         {
             // Crear ruta para obtener los datos del usuario
-            string path = "users/" + firebaseAuth.GetUserData().userId;
+            string path = "users/" + singletonPattern.GetFirebaseAuth().GetUserData().userId;
             // Llamar a la función GetJSON para obtener los datos del usuario
             GetJSON(path, gameObject.name, "OnSaveSuccessGet", "OnSaveErrorGet");
         }
@@ -89,10 +62,10 @@ public class FirebaseDatabase : MonoBehaviour
 
     public void CreateData()
     {
-        if (firebaseAuth.GetUserData() != null)
+        if (singletonPattern.GetFirebaseAuth().GetUserData() != null)
         {
             // Crear un nuevo objeto StoredUserData para la serialización
-            dataUser = new StoredUserData(firebaseAuth.GetUserData().userId, firebaseAuth.GetUserData().userName, 0, 0, new Vector3(0, 0, 0));
+            dataUser = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, 0, 0, new Vector3(0, 0, 0));
             // Crear la ruta para crear los datos del usuario
             string path = "users/" + dataUser.id;
             // Convertir el objeto a una cadena JSON usando JsonUtility
@@ -109,14 +82,16 @@ public class FirebaseDatabase : MonoBehaviour
 
     public void UpdateData()
     {
-        if (firebaseAuth.GetUserData() != null && dataUser != null)
+        if (singletonPattern.GetFirebaseAuth().GetUserData() != null && dataUser != null)
         {
             // Sumar las nuevas monedas a las existentes
-            int totalCoins = dataUser.totalCoins + systemPickingUp.coins;   
+            int totalCoins = dataUser.totalCoins + singletonPattern.GetCoins(); 
             // Sumar las restar las vidas
             int totalVidas = dataUser.vidas;
+            // Obtener la posición actual del jugador
+            Vector3 position = singletonPattern.GetPlayer().transform.position;
             // Crear un nuevo objeto StoredUserData para la serialización
-            var data = new StoredUserData(firebaseAuth.GetUserData().userId, firebaseAuth.GetUserData().userName, totalCoins, totalVidas, player.transform.position);
+            var data = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, totalCoins, totalVidas, position);
             // Crear la ruta para actualizar los datos del usuario
             string path = "users/" + data.id;
             // Convertir el objeto a una cadena JSON usando JsonUtility
@@ -126,25 +101,22 @@ public class FirebaseDatabase : MonoBehaviour
         }
         else
         {
-            Debug.LogError("UserData is null");
-            Debug.LogError("userData " + firebaseAuth.GetUserData().userId);
-            Debug.LogError("dataUser " + dataUser.totalCoins);
+            Debug.LogError("userData is null or dataUser is null");
         }
     }
 
     void OnSaveSuccessGet(string userDataJson)
     {
-        if (string.IsNullOrEmpty(userDataJson))
+        // Verificar si los datos del usuario no son nulos
+        if (string.IsNullOrEmpty(userDataJson) || userDataJson == "null")
         {
+            // Si los datos del usuario son nulos, crear los datos del usuario
             CreateData();
         }
         else
         {
-            Debug.Log("Desde OnSaveSuccessGet " + userDataJson);
+            // Si los datos del usuario no son nulos, asignar los datos a la variable dataUser
             dataUser = JsonUtility.FromJson<StoredUserData>(userDataJson);
-            Debug.Log("database - Data loaded - coins " + dataUser.totalCoins);
-            Debug.Log("database - Data loaded - name " + dataUser.name);
-            Debug.Log("database - Data loaded - lives " + dataUser.vidas);
         }
     }
 
@@ -170,6 +142,6 @@ public class FirebaseDatabase : MonoBehaviour
 
     void OnSaveErrorUpdate(string error)
     {
-        Debug.LogError(error);
+        Debug.Log("Hey! An error has occured " + error);
     }
 }
