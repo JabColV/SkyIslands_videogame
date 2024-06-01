@@ -20,34 +20,29 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     // To store the movement in x and y axis
     public float x, y;
-    // To store the database object
-    FirebaseDatabase database;
     // To store the islands that the character has collided with
     private HashSet<GameObject> collidedIslands = new HashSet<GameObject>();
+    // To store the singleton pattern instance
+    SingletonPattern singletonPattern;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
-        // To get the character's rigidbody component 
+        singletonPattern = SingletonPattern.Instance;
         rb = GetComponent<Rigidbody>();
-        // To get the character's animator 
         anim = GetComponent<Animator>();
-        // To get the database object
-        database = FirebaseDatabase.Instance;
-        // To set the player in the database
-        if (database != null)
-        {
-            database.SetPlayer(this.gameObject); 
-            Debug.Log("Player set in database", this.gameObject);
-        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Island") && !collidedIslands.Contains(other.gameObject))
         {
+            // Add the island to the list of collided islands
             collidedIslands.Add(other.gameObject);
-            database.UpdateData();
+            // set the player's position to the current position
+            singletonPattern.SetPlayer(this.gameObject);
+            // Update the database with the new data
+            singletonPattern.GetDatabase().UpdateData();
         }
     }
 

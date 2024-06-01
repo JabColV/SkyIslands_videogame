@@ -5,28 +5,13 @@ using TMPro;
 
 public class SystemPickingUp : MonoBehaviour
 {
-    FirebaseDatabase database;
     public TMP_Text coinsText;
-    public int coins = 0;
-    public static SystemPickingUp Instance;
+    int coins = 0;
+    SingletonPattern singletonPattern;
 
-
-    private void Awake()
+    private void Start()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    void Start()
-    {
-        database = FirebaseDatabase.Instance;
+        singletonPattern = SingletonPattern.Instance;
     }
     
     private void OnTriggerEnter(Collider other)
@@ -34,7 +19,8 @@ public class SystemPickingUp : MonoBehaviour
         if (other.gameObject.CompareTag("Coin"))
         {
             Destroy(other.gameObject);
-            coins++;
+            coins += 1;
+            singletonPattern.SetCoins(coins);
             coinsText.text = coins.ToString();
         }
     }

@@ -5,13 +5,6 @@ using UnityEngine;
 
 public class RunGameOptions : MonoBehaviour
 {
-    FirebaseAuth firebaseAuth;
-
-    private void Start()
-    {
-        firebaseAuth = FirebaseAuth.Instance;
-    }
-
     public void LoadSceneMain()
     {
         SceneManager.LoadScene("InitialMenu");
