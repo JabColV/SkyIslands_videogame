@@ -7,8 +7,6 @@ using TMPro;
 public class FirebaseAuth : MonoBehaviour
 {
     SingletonPattern singletonPattern;
-    public GameObject WelcomeInterface;
-    public GameObject MainInterface;
     UserData userData;
 
     [DllImport("__Internal")]
@@ -24,15 +22,6 @@ public class FirebaseAuth : MonoBehaviour
     private void Start()
     {
         singletonPattern = SingletonPattern.Instance;
-        if (WelcomeInterface == null)
-        {
-            Debug.LogError("WelcomeInterface no está asignado.");
-        }
-
-        if (MainInterface == null)
-        {
-            Debug.LogError("MainInterface no está asignado.");
-        }
     }
 
     public UserData GetUserData(){
@@ -55,9 +44,9 @@ public class FirebaseAuth : MonoBehaviour
             // Verificar si los datos del usuario no son nulos
             if (singletonPattern.GetDatabase().GetDataUserInfo() != null){
                 // Desactivar el objeto de inicio de sesión 
-                WelcomeInterface.SetActive(false);
+                singletonPattern.GetWelcomeInterface().SetActive(false);
                 // Activar el objeto de la escena principal
-                MainInterface.SetActive(true);
+                singletonPattern.GetMainInterface().SetActive(true);
             }
         }
         else
@@ -70,7 +59,6 @@ public class FirebaseAuth : MonoBehaviour
     {
         // Analizar el objeto JSON para obtener el nombre y el ID del usuario
         userData = JsonUtility.FromJson<UserData>(userDataJson);
-
         // Iniciar la corutina LoadData
         StartCoroutine(LoadData());
     }

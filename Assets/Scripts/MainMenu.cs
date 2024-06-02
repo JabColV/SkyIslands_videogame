@@ -9,13 +9,12 @@ public class MainMenu : MonoBehaviour
     public TMP_Text nameText;
     public TMP_Text scoreText;
 
-    // It is executed when the object which has the script is activated
-    private void Start()
+    private void OnEnable()
     {
         // Se obtienen las instancias cuando el menú se activa
         singletonPattern = SingletonPattern.Instance;
-        // Carga de datos en la interfaz
-        LoadUserData();
+        // Cargar datos del usuario cuando se active el menú
+        LoadUserData(); 
     }
 
     private void LoadUserData()
@@ -25,6 +24,7 @@ public class MainMenu : MonoBehaviour
         {
             // Asignar la cantidad de monedas recogidas a un objeto Text
             scoreText.text = singletonPattern.GetDatabase().GetDataUserInfo().totalCoins.ToString();
+            // Asignar el nombre del usuario a un objeto Text
             nameText.text = "Bienvenido usuario " + singletonPattern.GetDatabase().GetDataUserInfo().name;
         }
         else
