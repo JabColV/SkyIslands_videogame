@@ -28,6 +28,12 @@ public class FirebaseAuth : MonoBehaviour
         return userData;
     }
 
+    public void ClearData()
+    {
+        userData = null;
+    }
+
+
     public void SignIn()
     {
         SignInWithGoogle(gameObject.name, "OnSignInSuccess", "OnSignInFailure");

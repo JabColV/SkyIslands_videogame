@@ -45,6 +45,11 @@ public class FirebaseDatabase : MonoBehaviour
         singletonPattern = SingletonPattern.Instance;
     }
 
+    public void ClearData()
+    {
+        dataUser = null;
+    }
+
     public void GetData()
     {
         if (singletonPattern.GetFirebaseAuth().GetUserData() != null)
