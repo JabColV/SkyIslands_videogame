@@ -65,7 +65,7 @@ public class FirebaseDatabase : MonoBehaviour
         if (singletonPattern.GetFirebaseAuth().GetUserData() != null)
         {
             // Crear un nuevo objeto StoredUserData para la serialización
-            dataUser = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, 0, 0, new Vector3(0, 0, 0));
+            dataUser = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, 0, 3, new Vector3(0, 0, 0));
             // Crear la ruta para crear los datos del usuario
             string path = "users/" + dataUser.id;
             // Convertir el objeto a una cadena JSON usando JsonUtility
@@ -107,6 +107,7 @@ public class FirebaseDatabase : MonoBehaviour
 
     void OnSaveSuccessGet(string userDataJson)
     {
+        Debug.Log("Desde OnSaveSuccessGet "+ userDataJson);
         // Verificar si los datos del usuario no son nulos
         if (string.IsNullOrEmpty(userDataJson) || userDataJson == "null")
         {
@@ -117,6 +118,7 @@ public class FirebaseDatabase : MonoBehaviour
         {
             // Si los datos del usuario no son nulos, asignar los datos a la variable dataUser
             dataUser = JsonUtility.FromJson<StoredUserData>(userDataJson);
+            singletonPattern.SetIsLoaded(true);
         }
     }
 

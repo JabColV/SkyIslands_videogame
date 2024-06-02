@@ -8,6 +8,9 @@ public class SingletonPattern : MonoBehaviour
 
     #region Own variables
     GameObject player;
+    public GameObject WelcomeInterface;
+    public GameObject MainInterface;
+    bool isLoaded = false;
     int coins;
     #endregion
 
@@ -25,7 +28,7 @@ public class SingletonPattern : MonoBehaviour
             Instance = this;
             // y no destruir el objeto al cargar una nueva escena
             DontDestroyOnLoad(gameObject);
-            loadData();
+            LoadData();
         }
         else
         {
@@ -49,10 +52,18 @@ public class SingletonPattern : MonoBehaviour
         {
             Debug.LogError("FirebaseAuth no se encontró en ButtonStart.");
         }
+        if (WelcomeInterface == null)
+        {
+            Debug.LogError("WelcomeInterface no está asignado.");
+        }
+        if (MainInterface == null)
+        {
+            Debug.LogError("MainInterface no está asignado.");
+        }
     }
 
-    public void loadData(){
-        // Asignar las instancias de FirebaseDatabase, FirebaseAuth y SystemPickingUp
+    public void LoadData(){
+        // Asignar las instancias de FirebaseDatabase, FirebaseAuth 
         database = this.GetComponent<FirebaseDatabase>();
         firebaseAuth = GameObject.Find("ButtonStart")?.GetComponent<FirebaseAuth>();
     }
@@ -62,9 +73,24 @@ public class SingletonPattern : MonoBehaviour
         return player;
     }
 
+    public GameObject GetWelcomeInterface()
+    {
+        return WelcomeInterface;
+    }
+
+    public GameObject GetMainInterface()
+    {
+        return MainInterface;
+    }
+
     public int GetCoins()
     {
         return coins;
+    }
+
+    public bool IsLoaded()
+    {
+        return isLoaded;
     }
 
     public void SetPlayer(GameObject player)
@@ -75,6 +101,11 @@ public class SingletonPattern : MonoBehaviour
     public void SetCoins(int coins)
     {
         this.coins = coins;
+    }
+
+    public void SetIsLoaded(bool isLoaded)
+    {
+        this.isLoaded = isLoaded;
     }
 
     public FirebaseDatabase GetDatabase()
