@@ -7,9 +7,9 @@ public class SingletonPattern : MonoBehaviour
     public static SingletonPattern Instance;
 
     #region Own variables
-    GameObject player;
-    public GameObject WelcomeInterface;
-    public GameObject MainInterface;
+    GameObject? player;
+    public GameObject? WelcomeInterface;
+    public GameObject? MainInterface;
     bool isLoaded = false;
     int coins;
     #endregion
@@ -116,5 +116,14 @@ public class SingletonPattern : MonoBehaviour
     public FirebaseAuth GetFirebaseAuth()
     {
         return firebaseAuth;
+    }
+
+    public void ClearData()
+    {
+        player = null;
+        isLoaded = false;
+        coins = 0;
+        GetDatabase().ClearData();
+        GetFirebaseAuth().ClearData();
     }
 }
