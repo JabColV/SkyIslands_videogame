@@ -93,8 +93,17 @@ public class FirebaseDatabase : MonoBehaviour
             int totalCoins = dataUser.totalCoins + singletonPattern.GetCoins(); 
             // Sumar las restar las vidas
             int totalVidas = dataUser.vidas;
-            // Obtener la posición actual del jugador
-            Vector3 position = singletonPattern.GetPlayer().transform.position;
+            Vector3 position;
+            if (singletonPattern.GetPlayer() != null)
+            {
+                // Obtener la posición actual del jugador
+                position = singletonPattern.GetPlayer().transform.position;
+            }
+            else
+            {
+                // Si el jugador es nulo, asignar una posición por defecto
+                position = new Vector3(-3.7f, 21.30455f, 171.7f);
+            }
             // Crear un nuevo objeto StoredUserData para la serialización
             var data = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, totalCoins, totalVidas, position);
             // Crear la ruta para actualizar los datos del usuario

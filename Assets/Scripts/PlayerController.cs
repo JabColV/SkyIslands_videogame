@@ -31,6 +31,19 @@ public class PlayerController : MonoBehaviour
         singletonPattern = SingletonPattern.Instance;
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        StartCoroutine(LoadStatus());
+    }
+
+    public IEnumerator LoadStatus()
+    {
+        singletonPattern.SetIsLoaded(false);
+        // Obtener los datos del usuario
+        singletonPattern.GetDatabase().GetData();
+        // Esperar a que los datos se carguen completamente
+        yield return new WaitUntil(() => singletonPattern.IsLoaded() == true);
+        // Set the player's position to the current position
+        this.transform.position = singletonPattern.GetDatabase().GetDataUserInfo().position;
+        Debug.Log("Player position: " + this.transform.position);
     }
 
     private void OnTriggerEnter(Collider other)
