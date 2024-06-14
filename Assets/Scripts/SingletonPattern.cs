@@ -12,11 +12,13 @@ public class SingletonPattern : MonoBehaviour
     public GameObject? MainInterface;
     bool isLoaded = false;
     int coins;
+    int lifesNumber = 3;
     #endregion
 
     #region External variables
     FirebaseDatabase database;
     FirebaseAuth firebaseAuth;
+    PlayerController playerController;
     #endregion
 
     private void Awake()
@@ -88,6 +90,11 @@ public class SingletonPattern : MonoBehaviour
         return coins;
     }
 
+    public int GetLifes()
+    {
+        return lifesNumber;
+    }
+    
     public bool IsLoaded()
     {
         return isLoaded;
@@ -103,6 +110,11 @@ public class SingletonPattern : MonoBehaviour
         this.coins = coins;
     }
 
+    public void SetLifes(int lifes)
+    {
+        this.lifesNumber = lifes;
+    }
+
     public void SetIsLoaded(bool isLoaded)
     {
         this.isLoaded = isLoaded;
@@ -116,6 +128,16 @@ public class SingletonPattern : MonoBehaviour
     public FirebaseAuth GetFirebaseAuth()
     {
         return firebaseAuth;
+    }
+
+    public void SetPlayerController(PlayerController playerController)
+    {
+        this.playerController = playerController;
+    }
+
+    public PlayerController GetPlayerController()
+    {
+        return playerController;
     }
 
     public void ClearData()

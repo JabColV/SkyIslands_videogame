@@ -92,7 +92,7 @@ public class FirebaseDatabase : MonoBehaviour
             // Sumar las nuevas monedas a las existentes
             int totalCoins = dataUser.totalCoins + singletonPattern.GetCoins(); 
             // Sumar las restar las vidas
-            int totalVidas = dataUser.vidas;
+            int totalVidas = singletonPattern.GetLifes();
             Vector3 position;
             if (singletonPattern.GetPlayer() != null)
             {
