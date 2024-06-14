@@ -1,14 +1,40 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using UnityEngine;
 
-public class RunGameOptions : MonoBehaviour
+public class MenuPause : MonoBehaviour
 {
+    [SerializeField] private GameObject pauseButton;
+    [SerializeField] private GameObject Menu;
+    // To store the singleton pattern instance
     SingletonPattern singletonPattern;
 
-    private void Start()
+    // Start is called before the first frame update
+    public void Start()
     {
         singletonPattern = SingletonPattern.Instance;
+    }
+
+    public void Pause()
+    {
+        Time.timeScale = 0f;
+        pauseButton.SetActive(false);
+        Menu.SetActive(true);
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1f;
+        pauseButton.SetActive(true);
+        Menu.SetActive(false);
+    }
+
+    public void Restart()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        singletonPattern.GetDatabase().UpdateData();
     }
 
     public IEnumerator ReloadData()
@@ -53,6 +79,3 @@ public class RunGameOptions : MonoBehaviour
         StartCoroutine(ReloadData());
     }
 }
-
-
-
