@@ -22,6 +22,13 @@ public class SystemPickingUp : MonoBehaviour
             coins += 1;
             singletonPattern.SetCoins(coins);
             coinsText.text = coins.ToString();
+            if(coins == 10)
+            {
+                //Gana una vida
+                singletonPattern.GetPlayerController().winLife();
+                //Reinicio de monedas
+                coins = 0;
+            }
         }
     }
 }
