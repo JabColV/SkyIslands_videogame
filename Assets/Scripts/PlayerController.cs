@@ -28,6 +28,12 @@ public class PlayerController : MonoBehaviour
     int lifesNumber;
     // To store the game over menu
     public GameObject gameOverMenu;
+    // To store the pause menu script
+    public MenuPause menuPause;
+
+    public bool heartActive = false;
+
+    public AudioClip jumpAudio;
     // To store the singleton pattern instance
     SingletonPattern singletonPattern;
 
@@ -55,55 +61,78 @@ public class PlayerController : MonoBehaviour
         this.transform.position = singletonPattern.GetDatabase().GetDataUserInfo().position;
         // Set the player's lifes to the current lifes
         lifesNumber = singletonPattern.GetDatabase().GetDataUserInfo().vidas;
+        Debug.Log("LifesBefore: " + lifesNumber);
 
+        if (lifesNumber == 0)
+        {
+            menuPause.Restart();
+            lifesNumber = 3;
+        }
         int rest = 3 - lifesNumber;
+        singletonPattern.SetLifes(lifesNumber);
+        Debug.Log("LifesAfter: " + lifesNumber);
         for (int i = rest; i > 0; i--)
         {
             DesactivateLife(3-i);
         }
         // Set this file to the singleton pattern
         singletonPattern.SetPlayerController(this);
+        Debug.Log("PlayerController" + singletonPattern.GetPlayerController());
     }
 
     public void DesactivateLife(int indice)
     {
+        Debug.Log("LifesInDesactivateLife: " + lifes);
+        Debug.Log("IndiceInDesactivateLife: " + indice);
         // Desactivate the last life
         lifes[indice].SetActive(false);
     }
 
     public void ActivateLife(int indice)
     {
+        Debug.Log("LifesInDesactivateLife: " + lifes);
+        Debug.Log("LifesInDesactivateLife: " + lifesNumber);
+        Debug.Log("IndiceInDesactivateLife: " + indice);
         // Activate the last life
         lifes[indice].SetActive(true);
     }
 
     public void loseLife()
     {
-        if (lifesNumber>= 0 && lifesNumber <= 2)
+        Debug.Log("LifesInLoseLife: " + lifesNumber);
+        lifesNumber = lifesNumber - 1;
+        if (lifesNumber == 0)
         {
-            lifesNumber--;
-        }    
+            menuPause.Restart();
+        }  
         DesactivateLife(lifesNumber);
         singletonPattern.SetLifes(lifesNumber);
         // Update the database with the new data
         singletonPattern.GetDatabase().UpdateData();
-        if (lifesNumber == 0)
-        {
-            Time.timeScale = 0f;
-            gameOverMenu.SetActive(true);
-        }
     }
 
     public void winLife()
     {
-        if (lifesNumber>= 0 && lifesNumber <= 2)
+        if (lifesNumber == 3)
         {
-            ActivateLife(lifesNumber);
-            lifesNumber++;
+            return;
         }
+        heartActive = true;
+        ActivateLife(lifesNumber);
+        lifesNumber = lifesNumber + 1;
         singletonPattern.SetLifes(lifesNumber);
-        // Update the database with the new data
+        //Update the database with the new data
         singletonPattern.GetDatabase().UpdateData();
+    }
+
+    public bool GetHeartActive()
+    {
+        return heartActive;
+    }
+
+    public void SetHeartActive(bool heartActive)
+    {
+        this.heartActive = heartActive;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -163,7 +192,8 @@ public class PlayerController : MonoBehaviour
         if (isJumpping && floorDetected)
         {
             rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
-            // anim.SetBool("jumped", true);
+            // Play the jump audio
+            singletonPattern.PlaySound(jumpAudio);
         }
     }
 
