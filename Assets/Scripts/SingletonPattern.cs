@@ -11,6 +11,7 @@ public class SingletonPattern : MonoBehaviour
     public GameObject? WelcomeInterface;
     public GameObject? MainInterface;
     bool isLoaded = false;
+    bool isRestarting = false;
     int coins;
     int lifesNumber;
     private AudioSource audioSource;
@@ -100,6 +101,16 @@ public class SingletonPattern : MonoBehaviour
     public int GetLifes()
     {
         return lifesNumber;
+    }
+
+    public bool IsRestarting()
+    {
+        return isRestarting;
+    }
+
+    public void SetRestarting(bool isRestarting)
+    {
+        this.isRestarting = isRestarting;
     }
 
     public bool IsLoaded()
