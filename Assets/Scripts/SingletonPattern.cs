@@ -12,7 +12,8 @@ public class SingletonPattern : MonoBehaviour
     public GameObject? MainInterface;
     bool isLoaded = false;
     int coins;
-    int lifesNumber = 3;
+    int lifesNumber;
+    private AudioSource audioSource;
     #endregion
 
     #region External variables
@@ -68,6 +69,12 @@ public class SingletonPattern : MonoBehaviour
         // Asignar las instancias de FirebaseDatabase, FirebaseAuth 
         database = this.GetComponent<FirebaseDatabase>();
         firebaseAuth = GameObject.Find("ButtonStart")?.GetComponent<FirebaseAuth>();
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    public void PlaySound(AudioClip audioClip)
+    {
+        audioSource.PlayOneShot(audioClip);
     }
 
     public GameObject GetPlayer()
@@ -94,7 +101,7 @@ public class SingletonPattern : MonoBehaviour
     {
         return lifesNumber;
     }
-    
+
     public bool IsLoaded()
     {
         return isLoaded;

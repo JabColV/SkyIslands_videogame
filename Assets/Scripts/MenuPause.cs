@@ -34,6 +34,7 @@ public class MenuPause : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        singletonPattern.SetLifes(3);
         singletonPattern.GetDatabase().UpdateData();
     }
 
