@@ -32,8 +32,12 @@ public class PlayerController : MonoBehaviour
     public MenuPause menuPause;
 
     public bool heartActive = false;
-
+    // To store the audio of the character's jump
     public AudioClip jumpAudio;
+    // To store the audio of the character's yell
+    public AudioClip yellAudio;
+    // To store the audio of the game over
+    public AudioClip gameoverAudio;
     // To store the singleton pattern instance
     SingletonPattern singletonPattern;
 
@@ -48,6 +52,11 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         StartCoroutine(LoadStatus());
         _gravity = 60f; // 9.8f;
+        if (singletonPattern.IsRestarting())
+        {
+            transform.position = new Vector3(-3.700000047683716f, 21.304550170898438f, 171.6999969482422f);
+            singletonPattern.SetRestarting(false);
+        }
     }
 
     public IEnumerator LoadStatus()
@@ -61,7 +70,6 @@ public class PlayerController : MonoBehaviour
         this.transform.position = singletonPattern.GetDatabase().GetDataUserInfo().position;
         // Set the player's lifes to the current lifes
         lifesNumber = singletonPattern.GetDatabase().GetDataUserInfo().vidas;
-        Debug.Log("LifesBefore: " + lifesNumber);
 
         if (lifesNumber == 0)
         {
@@ -70,39 +78,32 @@ public class PlayerController : MonoBehaviour
         }
         int rest = 3 - lifesNumber;
         singletonPattern.SetLifes(lifesNumber);
-        Debug.Log("LifesAfter: " + lifesNumber);
         for (int i = rest; i > 0; i--)
         {
             DesactivateLife(3-i);
         }
         // Set this file to the singleton pattern
         singletonPattern.SetPlayerController(this);
-        Debug.Log("PlayerController" + singletonPattern.GetPlayerController());
     }
 
     public void DesactivateLife(int indice)
     {
-        Debug.Log("LifesInDesactivateLife: " + lifes);
-        Debug.Log("IndiceInDesactivateLife: " + indice);
         // Desactivate the last life
         lifes[indice].SetActive(false);
     }
 
     public void ActivateLife(int indice)
     {
-        Debug.Log("LifesInDesactivateLife: " + lifes);
-        Debug.Log("LifesInDesactivateLife: " + lifesNumber);
-        Debug.Log("IndiceInDesactivateLife: " + indice);
         // Activate the last life
         lifes[indice].SetActive(true);
     }
 
     public void loseLife()
     {
-        Debug.Log("LifesInLoseLife: " + lifesNumber);
         lifesNumber = lifesNumber - 1;
         if (lifesNumber == 0)
         {
+            singletonPattern.PlaySound(gameoverAudio);
             menuPause.Restart();
         }  
         DesactivateLife(lifesNumber);
@@ -149,6 +150,7 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.CompareTag("bird") && !collidedIslands.Contains(other.gameObject))
         {
+            singletonPattern.PlaySound(yellAudio);
             loseLife();
         }
     }

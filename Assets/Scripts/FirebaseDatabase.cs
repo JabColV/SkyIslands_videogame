@@ -69,8 +69,10 @@ public class FirebaseDatabase : MonoBehaviour
     {
         if (singletonPattern.GetFirebaseAuth().GetUserData() != null)
         {
+            // Crear una posición inicial para el jugador
+            Vector3 initialposition = new Vector3(-3.700000047683716f, 21.304550170898438f, 171.6999969482422f);
             // Crear un nuevo objeto StoredUserData para la serialización
-            dataUser = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, 0, 3, new Vector3(0, 0, 0));
+            dataUser = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, 0, 3, initialposition);
             // Crear la ruta para crear los datos del usuario
             string path = "users/" + dataUser.id;
             // Convertir el objeto a una cadena JSON usando JsonUtility
@@ -103,7 +105,7 @@ public class FirebaseDatabase : MonoBehaviour
             else
             {
                 // Si el jugador es nulo, asignar una posición por defecto
-                position = new Vector3(-3.7f, 21.30455f, 171.7f);
+                position = new Vector3(-3.700000047683716f, 21.304550170898438f, 171.6999969482422f);
             }
             // Crear un nuevo objeto StoredUserData para la serialización
             var data = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, totalCoins, totalVidas, position);

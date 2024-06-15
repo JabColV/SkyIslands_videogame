@@ -33,9 +33,24 @@ public class MenuPause : MonoBehaviour
     public void Restart()
     {
         Time.timeScale = 1f;
+        // Para saber el estado de la restauracion
+        singletonPattern.SetRestarting(false);
+        // Suscribirse al evento sceneLoaded antes de cargar la escena
+        SceneManager.sceneLoaded += SceneRestart;
+        // Restaurar la escena actual
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    void SceneRestart(Scene scene, LoadSceneMode mode)
+    {
+        // Restaurar las vidas del jugador
         singletonPattern.SetLifes(3);
+        // Actualizar los datos del usuario
         singletonPattern.GetDatabase().UpdateData();
+        // Setear el estado de la restauracion
+        singletonPattern.SetRestarting(true);
+        // Desuscribirse del evento sceneLoaded para evitar múltiples suscripciones
+        SceneManager.sceneLoaded -= SceneRestart;
     }
 
     public IEnumerator ReloadData()
