@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Coin
   - Island
+  - bird
+  - ground
+  - gem
+  - Ocean
   layers:
   - Default
   - TransparentFX
