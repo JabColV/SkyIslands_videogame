@@ -13,6 +13,7 @@ public class SystemPickingUp : MonoBehaviour
     private void Start()
     {
         singletonPattern = SingletonPattern.Instance;
+        coins = singletonPattern.GetCoins();
     }
     
     private void OnTriggerEnter(Collider other)

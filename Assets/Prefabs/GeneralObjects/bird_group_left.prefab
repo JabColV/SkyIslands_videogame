@@ -585,9 +585,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2220565996541335607}
   - component: {fileID: 7083033828542503380}
+  - component: {fileID: 218060443586008517}
   m_Layer: 0
   m_Name: Plane.002
-  m_TagString: Untagged
+  m_TagString: bird
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -668,6 +669,27 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.004673619, y: 0.008441946, z: 0.000003845431}
     m_Extent: {x: 0.006840257, y: 0.011945186, z: 0.012883792}
   m_DirtyAABB: 0
+--- !u!65 &218060443586008517
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3325407456866185665}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.024207786, y: 0.0257676, z: 0.014242677}
+  m_Center: {x: 0.00051206443, y: 0.0000095078885, z: 0.00763143}
 --- !u!1 &3375868634227323074
 GameObject:
   m_ObjectHideFlags: 0
@@ -741,9 +763,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7815970995047591834}
   - component: {fileID: 2933511419577800309}
+  - component: {fileID: 2777041090876505833}
   m_Layer: 0
   m_Name: Plane.001
-  m_TagString: Untagged
+  m_TagString: bird
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -824,6 +847,27 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.00075205544, y: 0.008441946, z: 0.0000133169815}
     m_Extent: {x: 0.0038048872, y: 0.011945186, z: 0.019068561}
   m_DirtyAABB: 0
+--- !u!65 &2777041090876505833
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3675724374174425555}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.024063962, y: 0.038137134, z: 0.008173647}
+  m_Center: {x: 0.0006406214, y: 0.000000034392542, z: 0.012527025}
 --- !u!1 &3746066836804804319
 GameObject:
   m_ObjectHideFlags: 0
@@ -866,9 +910,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2652662247015993175}
   - component: {fileID: 634613756567977394}
+  - component: {fileID: 5835137473166547322}
   m_Layer: 0
   m_Name: Plane.004
-  m_TagString: Untagged
+  m_TagString: bird
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -949,6 +994,27 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.004673617, y: 0.008441951, z: 0.000003846828}
     m_Extent: {x: 0.006840257, y: 0.011945188, z: 0.012883801}
   m_DirtyAABB: 0
+--- !u!65 &5835137473166547322
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3918056093798109559}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.02420779, y: 0.025767617, z: 0.014242676}
+  m_Center: {x: 0.0005120896, y: 0.00000974491, z: 0.007631429}
 --- !u!1 &3999531539764325428
 GameObject:
   m_ObjectHideFlags: 0
@@ -1663,9 +1729,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3466006463598733040}
   - component: {fileID: 1696523851497140055}
+  - component: {fileID: 5989396728445509949}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: bird
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1746,6 +1813,27 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.004955613, y: 0.008441942, z: 0.00000519678}
     m_Extent: {x: 0.008008444, y: 0.011945186, z: 0.01376066}
   m_DirtyAABB: 0
+--- !u!65 &5989396728445509949
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7639816671433531326}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.024263136, y: 0.027521338, z: 0.016578395}
+  m_Center: {x: 0.00074021146, y: 0.000008153089, z: 0.016036903}
 --- !u!1 &7777013887293448627
 GameObject:
   m_ObjectHideFlags: 0
@@ -1945,9 +2033,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5067920685366447199}
   - component: {fileID: 8563696405884577470}
+  - component: {fileID: 1855372364740301501}
   m_Layer: 0
   m_Name: Plane.003
-  m_TagString: Untagged
+  m_TagString: bird
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2028,6 +2117,27 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.0016010463, y: 0.00844196, z: 0.000013184734}
     m_Extent: {x: 0.0037739011, y: 0.011945186, z: 0.01840942}
   m_DirtyAABB: 0
+--- !u!65 &1855372364740301501
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8634619930892889184}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.024062501, y: 0.03681886, z: 0.008111693}
+  m_Center: {x: 0.000584865, y: 0.00000016748254, z: 0.010235237}
 --- !u!1 &8663761828528925942
 GameObject:
   m_ObjectHideFlags: 0
@@ -2073,7 +2183,7 @@ GameObject:
   - component: {fileID: 5398443358731400505}
   m_Layer: 0
   m_Name: bird_group_left
-  m_TagString: Untagged
+  m_TagString: bird
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2138,5 +2248,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 15
   enemyLeft: {fileID: 8357615849515984175}
-  from: -46.9
-  to: -146
