@@ -9,10 +9,23 @@ public class SharkEnemy : MonoBehaviour
     public Transform enemyStart;
     private float fromPos = 142.8f;
     private float toPos = -789.0f;
+    private Animator anim;
+    public Transform player;
+    // To store the singleton pattern instance
+    SingletonPattern singletonPattern;
     // Start is called before the first frame update
     void Start()
     {
-        
+        singletonPattern = SingletonPattern.Instance;
+        anim = GetComponent<Animator>();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Colision con el tiburón");
+        }
     }
 
     void SharkMovement (){
@@ -40,9 +53,21 @@ public class SharkEnemy : MonoBehaviour
             }
         }
     }
+
+    void SharkAtack(){
+        transform.position = Vector3.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
+    }
     // Update is called once per frame
     void Update()
     {
-        SharkMovement();
+        // Debug.Log("Player: " + singletonPattern.GetPlayer());
+        if (Vector3.Distance(transform.position, player.position) > 5.0f){
+            SharkMovement();
+        }
+        else
+        {
+            Debug.Log("Atacando");
+            SharkAtack();
+        }
     }
 }

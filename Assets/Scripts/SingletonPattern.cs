@@ -14,6 +14,7 @@ public class SingletonPattern : MonoBehaviour
     bool isRestarting = false;
     int coins;
     int lifesNumber;
+    bool isInWater = false;
     private AudioSource audioSource;
     #endregion
 
@@ -93,6 +94,11 @@ public class SingletonPattern : MonoBehaviour
         return MainInterface;
     }
 
+    public bool GetIsInWater()
+    {
+        return isInWater;
+    }
+
     public int GetCoins()
     {
         return coins;
@@ -106,6 +112,11 @@ public class SingletonPattern : MonoBehaviour
     public bool IsRestarting()
     {
         return isRestarting;
+    }
+
+     public void SetIsInWater(bool isInWater)
+    {
+        this.isInWater = isInWater;
     }
 
     public void SetRestarting(bool isRestarting)

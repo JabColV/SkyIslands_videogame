@@ -47,4 +47,9 @@ public class SharkEnemyEnd : MonoBehaviour
     {
         SharkMovement();
     }
+
+    void FixedUpdate()
+    {
+        SharkMovement();
+    }
 }
