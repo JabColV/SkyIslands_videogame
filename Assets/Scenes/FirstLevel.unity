@@ -874,6 +874,7 @@ MonoBehaviour:
   yellAudio: {fileID: 8300000, guid: 3dc88ae7e3931cd469b614b49bbc66b9, type: 3}
   gameoverAudio: {fileID: 8300000, guid: 650966e39133fb5478b245671311bf06, type: 3}
   splasAudio: {fileID: 8300000, guid: 1fe85dd692b7db845a38dfe857f4acd6, type: 3}
+  gameAudioSong: {fileID: 8300000, guid: b33466f84cbe6ac41ab913c27a999c8d, type: 3}
   RotationSpeed: 200
   x: 0
   y: 0

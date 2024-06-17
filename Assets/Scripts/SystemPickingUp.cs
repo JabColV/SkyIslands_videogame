@@ -20,7 +20,7 @@ public class SystemPickingUp : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Coin"))
         {
-            singletonPattern.PlaySound(coinAudio);
+            singletonPattern.PlaySoundEffect(coinAudio, 1.0f);
             Destroy(other.gameObject);
             coins += 1;
             singletonPattern.SetCoins(coins);

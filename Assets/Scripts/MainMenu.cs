@@ -17,6 +17,12 @@ public class MainMenu : MonoBehaviour
         LoadUserData(); 
     }
 
+    private void Start()
+    {
+        // Reproducir la canción de fondo
+        singletonPattern.PlayBackgroundMusic(singletonPattern.GetGameAudioSong());
+    }
+
     private void LoadUserData()
     {
         // Asignar el nombre del usuario a un objeto Text, si FirebaseAuth.Instance.userData no es nulo
