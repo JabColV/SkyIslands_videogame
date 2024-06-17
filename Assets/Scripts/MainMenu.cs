@@ -17,11 +17,11 @@ public class MainMenu : MonoBehaviour
         LoadUserData(); 
     }
 
-    private void Start()
-    {
-        // Reproducir la canción de fondo
-        singletonPattern.PlayBackgroundMusic(singletonPattern.GetGameAudioSong());
-    }
+    // private void Start()
+    // {
+    //     // Reproducir la canción de fondo
+    //     singletonPattern.PlayBackgroundMusic(singletonPattern.GetGameAudioSong());
+    // }
 
     private void LoadUserData()
     {
