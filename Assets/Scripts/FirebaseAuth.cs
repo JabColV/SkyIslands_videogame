@@ -48,11 +48,14 @@ public class FirebaseAuth : MonoBehaviour
             // Espera hasta que los datos estén cargados
             yield return new WaitUntil(() => singletonPattern.GetDatabase().GetDataUserInfo() != null);
             // Verificar si los datos del usuario no son nulos
-            if (singletonPattern.GetDatabase().GetDataUserInfo() != null){
+            if (singletonPattern.GetDatabase().GetDataUserInfo() != null)
+            {
                 // Desactivar el objeto de inicio de sesión 
                 singletonPattern.GetWelcomeInterface().SetActive(false);
                 // Activar el objeto de la escena principal
                 singletonPattern.GetMainInterface().SetActive(true);
+                // Reproducir la canción de fondo
+                singletonPattern.PlayBackgroundMusic(singletonPattern.GetGameAudioSong());
             }
         }
         else
