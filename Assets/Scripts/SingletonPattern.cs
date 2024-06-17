@@ -15,7 +15,9 @@ public class SingletonPattern : MonoBehaviour
     int coins;
     int lifesNumber;
     bool isInWater = false;
-    private AudioSource audioSource;
+    bool activeGameAudio = false;
+    public AudioClip gameAudioSong;
+    public List<AudioSource> audioSources;
     #endregion
 
     #region External variables
@@ -71,12 +73,39 @@ public class SingletonPattern : MonoBehaviour
         // Asignar las instancias de FirebaseDatabase, FirebaseAuth 
         database = this.GetComponent<FirebaseDatabase>();
         firebaseAuth = GameObject.Find("ButtonStart")?.GetComponent<FirebaseAuth>();
-        audioSource = GetComponent<AudioSource>();
+        audioSources = new List<AudioSource>(GetComponents<AudioSource>());
     }
 
-    public void PlaySound(AudioClip audioClip)
+    // Método para reproducir música de fondo
+    public void PlayBackgroundMusic(AudioClip clip)
     {
-        audioSource.PlayOneShot(audioClip);
+        audioSources[0].clip = clip;
+        audioSources[0].volume = 0.3f; // Ajusta el volumen específico para la música de fondo
+        audioSources[0].loop = true;
+        audioSources[0].Play();
+    }
+
+    // Método para detener la música de fondo
+    public void StopBackgroundMusic()
+    {
+        audioSources[0].Stop(); 
+    }
+
+    // Método para reproducir efectos de sonido
+    public void PlaySoundEffect(AudioClip clip, float volume)
+    {
+        audioSources[1].PlayOneShot(clip, volume);
+    }
+
+    // Método para detener efectos de sonido
+    public void activeSoundsEffects()
+    {
+        audioSources[1].enabled = true; 
+    }
+    // Método para detener efectos de sonido
+    public void StopSoundEffects()
+    {
+        audioSources[1].enabled = false; 
     }
 
     public GameObject GetPlayer()
@@ -112,6 +141,11 @@ public class SingletonPattern : MonoBehaviour
     public bool IsRestarting()
     {
         return isRestarting;
+    }
+
+    public AudioClip GetGameAudioSong()
+    {
+        return gameAudioSong;
     }
 
      public void SetIsInWater(bool isInWater)

@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour
         }
         singletonPattern.SetPlayer(this.gameObject);
         singletonPattern.SetPlayerController(this);
+        // singletonPattern.PlayRepeatedSound(singletonPattern.GetGameAudioSong());
     }
 
     public void DesactivateLife(int indice)
@@ -91,7 +92,7 @@ public class PlayerController : MonoBehaviour
         lifesNumber = lifesNumber - 1;
         if (lifesNumber == 0)
         {
-            singletonPattern.PlaySound(gameoverAudio);
+            singletonPattern.PlaySoundEffect(gameoverAudio, 1.0f);
             menuPause.Restart();
         }
         DesactivateLife(lifesNumber);
@@ -133,13 +134,13 @@ public class PlayerController : MonoBehaviour
         }
         if (other.gameObject.CompareTag("bird"))
         {
-            singletonPattern.PlaySound(yellAudio);
+            singletonPattern.PlaySoundEffect(yellAudio, 1.0f);
             loseLife();
         }
 
         if (other.gameObject.CompareTag("Ocean"))
         {
-            singletonPattern.PlaySound(splasAudio);
+            singletonPattern.PlaySoundEffect(splasAudio, 1.0f);
             isInWater = true;
             singletonPattern.SetIsInWater(isInWater);
         }
@@ -243,7 +244,7 @@ public class PlayerController : MonoBehaviour
         if (isJumpping && floorDetected && !isInWater)
         {
             playerRB.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
-            singletonPattern.PlaySound(jumpAudio);
+            singletonPattern.PlaySoundEffect(jumpAudio, 1.0f);
             isJumpping = false;
         }
     }
