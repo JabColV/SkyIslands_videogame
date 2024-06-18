@@ -13,12 +13,12 @@ public class SystemPickingUp : MonoBehaviour
     private void Start()
     {
         singletonPattern = SingletonPattern.Instance;
-        coinsText.text = coins.ToString();
     }
     
     public void SetCoins(int coins)
     {
         this.coins = coins;
+        coinsText.text = coins.ToString(); // Asegurarse de que el texto se actualice cuando se cambien las monedas
     }
 
     private void OnTriggerEnter(Collider other)
@@ -30,14 +30,14 @@ public class SystemPickingUp : MonoBehaviour
             coins += 1;
             coinsText.text = coins.ToString();
 
-            if(coins == 10)
+            if(coins == 15)
             {
                 //Gana una vida
                 singletonPattern.GetPlayerController().winLife();
                 if (singletonPattern.GetPlayerController().GetHeartActive() == true)
                 {
                     //Reinicio de monedas
-                    coins -= 10;
+                    coins -= 15;
                     //Actualizar estado de las corazones
                     singletonPattern.GetPlayerController().SetHeartActive(false);
                 }

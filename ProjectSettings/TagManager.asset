@@ -11,6 +11,7 @@ TagManager:
   - gem
   - Ocean
   - Shark
+  - gogglesHelp
   layers:
   - Default
   - TransparentFX
