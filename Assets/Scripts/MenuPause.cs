@@ -7,6 +7,7 @@ public class MenuPause : MonoBehaviour
 {
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject Menu;
+    public PlayerController playerController;
     // To store the singleton pattern instance
     SingletonPattern singletonPattern;
 
@@ -30,11 +31,28 @@ public class MenuPause : MonoBehaviour
         Menu.SetActive(false);
     }
 
+    public void LastMemory()
+    {
+        StartCoroutine(ReloadData("FirstLevel", false));
+    }
+
+    void SceneLastMemory(Scene scene, LoadSceneMode mode)
+    {
+        
+        
+        // Setear el estado de la restauracion
+        singletonPattern.SetRestarting(true);
+        // Desuscribirse del evento sceneLoaded para evitar múltiples suscripciones
+        SceneManager.sceneLoaded -= SceneRestart;
+    }
+
     public void Restart()
     {
         Time.timeScale = 1f;
         // Para saber el estado de la restauracion
         singletonPattern.SetRestarting(false);
+        // Restaurar el estado de las gemas
+        playerController.DiamondDeactivation();
         // Suscribirse al evento sceneLoaded antes de cargar la escena
         SceneManager.sceneLoaded += SceneRestart;
         // Restaurar la escena actual
@@ -45,43 +63,43 @@ public class MenuPause : MonoBehaviour
     {
         // Restaurar las vidas del jugador
         singletonPattern.SetLifes(3);
+        // Restaurar las gemas del jugador
+        singletonPattern.SetGems(0);
+        // Restaurar las monedas del jugador
+        singletonPattern.SetCoins(0);
         // Actualizar los datos del usuario
-        singletonPattern.GetDatabase().UpdateData();
+        singletonPattern.GetDatabase().UpdateData(new Vector3(-3.700000047683716f, 21.304550170898438f, 171.6999969482422f));
         // Setear el estado de la restauracion
         singletonPattern.SetRestarting(true);
         // Desuscribirse del evento sceneLoaded para evitar múltiples suscripciones
         SceneManager.sceneLoaded -= SceneRestart;
     }
 
-    public IEnumerator ReloadData()
+    public IEnumerator ReloadData(string sceneName = "InitialMenu", bool sceneLoaded = true)
     {
-        Debug.Log("Recargando datos...");
         singletonPattern.SetIsLoaded(false);
         // Obtener los datos del usuario
         singletonPattern.GetDatabase().GetData();
 
-        Debug.Log("Esperando a que los datos se carguen completamente...");
         // Esperar a que los datos se carguen completamente
         yield return new WaitUntil(() => singletonPattern.IsLoaded() == true);
 
-        Debug.Log("Se añade el evento sceneLoaded...");
-        // Suscribirse al evento sceneLoaded antes de cargar la escena
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        if (sceneLoaded)
+        {
+            // Suscribirse al evento sceneLoaded antes de cargar la escena
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
 
-        Debug.Log("Cargando la escena...");
         // Ahora cargar la escena
-        SceneManager.LoadScene("InitialMenu");
+        SceneManager.LoadScene(sceneName);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("Escena cargada: " + scene.name);
         if (scene.name == "InitialMenu")
         {
-            Debug.Log("Interfaz Welcome: " + singletonPattern.GetMainInterface());
-            Debug.Log("Desactivando la interfaz de bienvenida " + singletonPattern.GetWelcomeInterface().name);
+            // Desactivar la interfaz de bienvenida y activar la interfaz principal
             singletonPattern.GetWelcomeInterface().SetActive(false);
-            Debug.Log("Activando la interfaz principal " + singletonPattern.GetMainInterface().name);
             singletonPattern.GetMainInterface().SetActive(true);
 
             // Desuscribirse del evento sceneLoaded para evitar múltiples suscripciones

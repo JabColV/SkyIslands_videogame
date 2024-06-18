@@ -12,10 +12,13 @@ public class SingletonPattern : MonoBehaviour
     public GameObject? MainInterface;
     bool isLoaded = false;
     bool isRestarting = false;
-    int coins;
-    int lifesNumber;
     bool isInWater = false;
     bool activeGameAudio = false;
+    bool hasGoggles = false;
+    bool gemGotten = false;
+    int coins;
+    int gems;
+    int lifesNumber;
     public AudioClip gameAudioSong;
     public List<AudioSource> audioSources;
     #endregion
@@ -133,9 +136,24 @@ public class SingletonPattern : MonoBehaviour
         return coins;
     }
 
+    public int GetGems()
+    {
+        return gems;
+    }
+
+    public bool GetHasGoggles()
+    {
+        return hasGoggles;
+    }
+
     public int GetLifes()
     {
         return lifesNumber;
+    }
+
+    public bool GetGemGotten()
+    {
+        return gemGotten;
     }
 
     public bool IsRestarting()
@@ -158,6 +176,11 @@ public class SingletonPattern : MonoBehaviour
         this.isRestarting = isRestarting;
     }
 
+    public void SetGemGotten(bool gemGotten)
+    {
+        this.gemGotten = gemGotten;
+    }
+
     public bool IsLoaded()
     {
         return isLoaded;
@@ -171,6 +194,16 @@ public class SingletonPattern : MonoBehaviour
     public void SetCoins(int coins)
     {
         this.coins = coins;
+    }
+
+    public void SetGems(int gems)
+    {
+        this.gems = gems;
+    }
+
+    public void SetHasGoggles(bool hasGoggles)
+    {
+        this.hasGoggles = hasGoggles;
     }
 
     public void SetLifes(int lifes)

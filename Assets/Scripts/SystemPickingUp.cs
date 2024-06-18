@@ -6,16 +6,21 @@ using TMPro;
 public class SystemPickingUp : MonoBehaviour
 {
     public TMP_Text coinsText;
-    int coins = 0;
+    int coins;
     SingletonPattern singletonPattern;
     public AudioClip coinAudio;
 
     private void Start()
     {
         singletonPattern = SingletonPattern.Instance;
-        coins = singletonPattern.GetCoins();
+        coinsText.text = coins.ToString();
     }
     
+    public void SetCoins(int coins)
+    {
+        this.coins = coins;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Coin"))
@@ -23,7 +28,6 @@ public class SystemPickingUp : MonoBehaviour
             singletonPattern.PlaySoundEffect(coinAudio, 1.0f);
             Destroy(other.gameObject);
             coins += 1;
-            singletonPattern.SetCoins(coins);
             coinsText.text = coins.ToString();
 
             if(coins == 10)
@@ -38,6 +42,7 @@ public class SystemPickingUp : MonoBehaviour
                     singletonPattern.GetPlayerController().SetHeartActive(false);
                 }
             }
+            singletonPattern.SetCoins(coins);
         }
     }
 }
