@@ -24,14 +24,18 @@ public class FirebaseDatabase : MonoBehaviour
         public string name;
         public int totalCoins;
         public int vidas;
+        public int gemas;
+        public bool hasGoggles;
         public Vector3 position;
 
-        public StoredUserData(string id, string name, int totalCoins, int vidas, Vector3 position)
+        public StoredUserData(string id, string name, int totalCoins, int vidas, int gemas, bool hasGoggles, Vector3 position)
         {
             this.id = id;
             this.name = name;
             this.totalCoins = totalCoins;
             this.vidas = vidas;
+            this.gemas = gemas;
+            this.hasGoggles = hasGoggles;
             this.position = position;
         }
     }
@@ -72,7 +76,7 @@ public class FirebaseDatabase : MonoBehaviour
             // Crear una posición inicial para el jugador
             Vector3 initialposition = new Vector3(-3.700000047683716f, 21.304550170898438f, 171.6999969482422f);
             // Crear un nuevo objeto StoredUserData para la serialización
-            dataUser = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, 0, 3, initialposition);
+            dataUser = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, 0, 3, 0, false, initialposition);
             // Crear la ruta para crear los datos del usuario
             string path = "users/" + dataUser.id;
             // Convertir el objeto a una cadena JSON usando JsonUtility
@@ -87,28 +91,24 @@ public class FirebaseDatabase : MonoBehaviour
     }
 
 
-    public void UpdateData()
+    public void UpdateData(Vector3 position)
     {
         if (singletonPattern.GetFirebaseAuth().GetUserData() != null && dataUser != null)
         {
             // Sumar las nuevas monedas a las existentes
-            int totalCoins = dataUser.totalCoins + singletonPattern.GetCoins(); 
+            int totalCoins = singletonPattern.GetCoins(); 
+            // Sumar las nuevas gemas a las existentes
+            int totalGems = singletonPattern.GetGems(); 
+            // Verificar si el jugador tiene las gafas
+            bool hasGoggles = singletonPattern.GetHasGoggles();
             // Sumar las restar las vidas
             int totalVidas = singletonPattern.GetLifes();
-            Debug.Log("TotalLifes" + totalVidas);
-            Vector3 position;
-            if (singletonPattern.GetPlayer() != null)
+            if (position == Vector3.zero)
             {
-                // Obtener la posición actual del jugador
                 position = singletonPattern.GetPlayer().transform.position;
             }
-            else
-            {
-                // Si el jugador es nulo, asignar una posición por defecto
-                position = new Vector3(-3.700000047683716f, 21.304550170898438f, 171.6999969482422f);
-            }
             // Crear un nuevo objeto StoredUserData para la serialización
-            var data = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, totalCoins, totalVidas, position);
+            var data = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, totalCoins, totalVidas, totalGems, hasGoggles, position);
             // Crear la ruta para actualizar los datos del usuario
             string path = "users/" + data.id;
             // Convertir el objeto a una cadena JSON usando JsonUtility
