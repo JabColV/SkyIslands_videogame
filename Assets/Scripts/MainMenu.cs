@@ -7,7 +7,6 @@ public class MainMenu : MonoBehaviour
 {
     SingletonPattern singletonPattern;
     public TMP_Text nameText;
-    public TMP_Text scoreText;
 
     private void OnEnable()
     {
@@ -22,8 +21,6 @@ public class MainMenu : MonoBehaviour
         // Asignar el nombre del usuario a un objeto Text, si FirebaseAuth.Instance.userData no es nulo
         if (singletonPattern.GetDatabase().GetDataUserInfo() != null)
         {
-            // Asignar la cantidad de monedas recogidas a un objeto Text
-            scoreText.text = singletonPattern.GetDatabase().GetDataUserInfo().totalCoins.ToString();
             // Asignar el nombre del usuario a un objeto Text
             nameText.text = "Bienvenido usuario " + singletonPattern.GetDatabase().GetDataUserInfo().name;
         }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public GameObject gameOverMenu;
     public GameObject ocean;
     public GameObject goggles;
+    public GameObject gogglesHelp;
     #endregion
 
     #region bool variables
@@ -20,6 +22,8 @@ public class PlayerController : MonoBehaviour
     bool isInWater = false;
     bool floorDetected = false;
     public bool heartActive = false;
+    bool hasGoggles = false;
+    bool isDrowning = false;
     #endregion
 
     #region audio variables
@@ -30,6 +34,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip gemAudio;
     #endregion
 
+    public TMP_Text gogglesExplanation;
     private Rigidbody playerRB;
     private float jumpForce = 49.0f;
     private float movementSpeed = 15.0f;
@@ -41,7 +46,7 @@ public class PlayerController : MonoBehaviour
     Vector3 lastIsland;
     int lifesNumber;
     int gemsNumber;
-    public List<BoxCollider> boxColliders;
+    List<BoxCollider> boxColliders;
 
     SystemPickingUp systemPickingUp;
     SingletonPattern singletonPattern;
@@ -195,6 +200,32 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void ShowGogglesHelp()
+    {
+        if (gemsNumber == 3 && !hasGoggles)
+        {
+            gogglesExplanation.text = "Presiona E para usarlo, debes arrojarte al mar y bucar el resto de las gemas, no lo podrás hacer sin las gafas de buceo.";
+            gogglesHelp.SetActive(true);
+            gogglesHelp.transform.Rotate(Vector3.up, 20.0f * Time.deltaTime);
+        }
+    }
+
+    private IEnumerator Drown()
+    {
+        isDrowning = true; // Evita múltiples llamadas a esta corutina
+        anim.SetBool("drowning", true);
+        // Aquí puedes activar la animación de ahogado
+        yield return new WaitForSeconds(2); // Espera tres segundos
+        Debug.Log("Ya pasaron los 3 segundos");
+        loseLife();
+        if (lifesNumber > 0)
+        {
+            singletonPattern.GetDatabase().UpdateData(lastIsland);
+            menuPause.LastMemory();
+            isDrowning = false; 
+        }
+    }
+
     void Update()
     {
         x = Input.GetAxis("Horizontal");
@@ -224,6 +255,27 @@ public class PlayerController : MonoBehaviour
         if (isInWater)
         {
             WaterConfiguration();
+        }
+
+        if (isInWater && !hasGoggles && !isDrowning)
+        {
+            StartCoroutine(Drown());
+        }
+
+        ShowGogglesHelp();
+        
+        if (Input.GetKeyDown(KeyCode.E) && gemsNumber == 3 && !hasGoggles)
+        {
+            gogglesHelp.SetActive(false);
+            gogglesExplanation.enabled = false;
+            goggles.SetActive(true);
+            hasGoggles = true;
+            singletonPattern.SetHasGoggles(hasGoggles);
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            anim.SetBool("duck", true);
         }
     }
 
