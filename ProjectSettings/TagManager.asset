@@ -11,7 +11,8 @@ TagManager:
   - gem
   - Ocean
   - Shark
-  - gogglesHelp
+  - portal
+  - pinchos
   layers:
   - Default
   - TransparentFX

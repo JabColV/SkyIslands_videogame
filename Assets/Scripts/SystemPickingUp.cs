@@ -29,20 +29,24 @@ public class SystemPickingUp : MonoBehaviour
             Destroy(other.gameObject);
             coins += 1;
             coinsText.text = coins.ToString();
-
-            if(coins == 15)
-            {
-                //Gana una vida
-                singletonPattern.GetPlayerController().winLife();
-                if (singletonPattern.GetPlayerController().GetHeartActive() == true)
-                {
-                    //Reinicio de monedas
-                    coins -= 15;
-                    //Actualizar estado de las corazones
-                    singletonPattern.GetPlayerController().SetHeartActive(false);
-                }
-            }
             singletonPattern.SetCoins(coins);
         }
+    }
+
+    void Update()
+    {
+        if((coins - 15) >= 0)
+        {
+            //Gana una vida
+            singletonPattern.GetPlayerController().winLife();
+            if (singletonPattern.GetPlayerController().GetHeartActive() == true)
+            {
+                //Reinicio de monedas
+                coins -= 15;
+                //Actualizar estado de las corazones
+                singletonPattern.GetPlayerController().SetHeartActive(false);
+            }
+        }
+        singletonPattern.SetCoins(coins);
     }
 }
