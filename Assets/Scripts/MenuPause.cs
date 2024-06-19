@@ -67,6 +67,8 @@ public class MenuPause : MonoBehaviour
         singletonPattern.SetGems(0);
         // Restaurar las monedas del jugador
         singletonPattern.SetCoins(0);
+        // Restaurar las gafas del jugador
+        singletonPattern.SetHasGoggles(false);
         // Actualizar los datos del usuario
         singletonPattern.GetDatabase().UpdateData(new Vector3(-3.700000047683716f, 21.304550170898438f, 171.6999969482422f));
         // Setear el estado de la restauracion

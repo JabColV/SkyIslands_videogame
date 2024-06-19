@@ -8,13 +8,16 @@ public class PlayerController : MonoBehaviour
     #region game variables
     public GameObject[] lifes;
     public GameObject[] gems;
-    public GameObject[] diamonds;
     public GameObject[] gemEffects;
+    public GameObject gem5;
+    public GameObject FinalPortal;
     public GameObject box;
     public GameObject gameOverMenu;
     public GameObject ocean;
     public GameObject goggles;
     public GameObject gogglesHelp;
+    public Canvas canvas1;
+    public Canvas canvas2;
     #endregion
 
     #region bool variables
@@ -30,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip jumpAudio;
     public AudioClip yellAudio;
     public AudioClip gameoverAudio;
+    public AudioClip winAudio;
     public AudioClip splasAudio;
     public AudioClip gemAudio;
     #endregion
@@ -78,6 +82,8 @@ public class PlayerController : MonoBehaviour
         lifesNumber = singletonPattern.GetDatabase().GetDataUserInfo().vidas;
         gemsNumber = singletonPattern.GetDatabase().GetDataUserInfo().gemas;
         systemPickingUp.SetCoins(singletonPattern.GetDatabase().GetDataUserInfo().totalCoins);
+        hasGoggles = singletonPattern.GetDatabase().GetDataUserInfo().hasGoggles;
+        singletonPattern.SetHasGoggles(hasGoggles);
 
         //Life configuration
         if (lifesNumber == 0)
@@ -101,7 +107,6 @@ public class PlayerController : MonoBehaviour
         for (int i = gemsNumber; i > 0; i--)
         {
             gems[i-1].SetActive(true);
-            diamonds[i-1].SetActive(false);
             gemEffects[i-1].SetActive(false);
         }
         
@@ -156,7 +161,7 @@ public class PlayerController : MonoBehaviour
     public void DiamondDeactivation()
     {
         box.SetActive(false);
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < gemsNumber; i++)
         {
             gems[i].SetActive(false);
         }
@@ -193,10 +198,28 @@ public class PlayerController : MonoBehaviour
             gemEffects[singletonPattern.GetGems()].SetActive(false);
             box.SetActive(true);
             gems[singletonPattern.GetGems()].SetActive(true);
-            diamonds[singletonPattern.GetGems()].SetActive(false);
+            if (gemsNumber == 3)
+            {
+                gem5.SetActive(true);
+                gemEffects[singletonPattern.GetGems()+1].SetActive(true);
+            }
+            //Aumentar el número de gemas
             gemsNumber += 1;
             singletonPattern.SetGems(gemsNumber);
             singletonPattern.GetDatabase().UpdateData(lastIsland);
+        }
+
+        if (other.gameObject.CompareTag("portal"))
+        {
+            singletonPattern.PlaySoundEffect(winAudio, 1.0f);
+            this.gameObject.SetActive(false);
+            canvas1.gameObject.SetActive(false);
+            canvas2.gameObject.SetActive(true);
+        }
+        if (other.gameObject.CompareTag("pinchos"))
+        {
+            singletonPattern.PlaySoundEffect(yellAudio, 1.0f);
+            loseLife();
         }
     }
 
@@ -210,13 +233,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void TakeGoggles()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && gemsNumber == 3 && !hasGoggles)
+        {
+            gogglesHelp.SetActive(false);
+            gogglesExplanation.enabled = false;
+            goggles.SetActive(true);
+            hasGoggles = true;
+            singletonPattern.SetHasGoggles(hasGoggles);
+            singletonPattern.GetDatabase().UpdateData(lastIsland);
+        }
+    }
+
     private IEnumerator Drown()
     {
-        isDrowning = true; // Evita múltiples llamadas a esta corutina
+        isDrowning = true;
         anim.SetBool("drowning", true);
-        // Aquí puedes activar la animación de ahogado
-        yield return new WaitForSeconds(2); // Espera tres segundos
-        Debug.Log("Ya pasaron los 3 segundos");
+        
+        yield return new WaitForSeconds(2); 
         loseLife();
         if (lifesNumber > 0)
         {
@@ -250,6 +285,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump") && floorDetected && !isInWater)
         {
             isJumpping = true;
+        } 
+        else
+        {
+            anim.SetBool("jumped", false);
         }
 
         if (isInWater)
@@ -264,21 +303,21 @@ public class PlayerController : MonoBehaviour
 
         ShowGogglesHelp();
         
-        if (Input.GetKeyDown(KeyCode.E) && gemsNumber == 3 && !hasGoggles)
-        {
-            gogglesHelp.SetActive(false);
-            gogglesExplanation.enabled = false;
-            goggles.SetActive(true);
-            hasGoggles = true;
-            singletonPattern.SetHasGoggles(hasGoggles);
-        }
+        TakeGoggles();
 
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            anim.SetBool("duck", true);
-        }
+        goggles.SetActive(hasGoggles);
+
+        HasFullGems();
     }
 
+    void HasFullGems()
+    {
+        if (gemsNumber == 5)
+        {
+            //Aparece un portal en el agua para finalizar el juego
+            FinalPortal.SetActive(true);
+        }
+    }
     void playerRBWaterConfig()
     {
         if (isInWater)
@@ -292,7 +331,7 @@ public class PlayerController : MonoBehaviour
             Quaternion deltaRotation = Quaternion.Euler(0, x * Time.deltaTime * RotationSpeed, 0);
             playerRB.MoveRotation(playerRB.rotation * deltaRotation);
 
-            Vector3 waterMovement = transform.TransformDirection(new Vector3(0, y, 0)) * movementSpeed * Time.deltaTime;
+            Vector3 waterMovement = transform.TransformDirection(new Vector3(0, y, 0)) * (movementSpeed + 2.0f) * Time.deltaTime;
             Vector3 newPosition = playerRB.position + waterMovement;
             playerRB.MovePosition(newPosition);
         }
