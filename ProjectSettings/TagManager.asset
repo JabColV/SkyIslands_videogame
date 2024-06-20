@@ -13,6 +13,8 @@ TagManager:
   - Shark
   - portal
   - pinchos
+  - gogglesHelp
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX
