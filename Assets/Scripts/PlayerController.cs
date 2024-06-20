@@ -8,22 +8,21 @@ public class PlayerController : MonoBehaviour
     #region game variables
     public GameObject[] lifes;
     public GameObject[] gems;
+    public GameObject[] diamonds;
     public GameObject[] gemEffects;
     public GameObject gem5;
     public GameObject FinalPortal;
     public GameObject box;
-    public GameObject gameOverMenu;
     public GameObject ocean;
     public GameObject goggles;
     public GameObject gogglesHelp;
-    public Canvas canvas1;
-    public Canvas canvas2;
+    public GameObject ResumeButton;
     #endregion
 
     #region bool variables
     bool isJumpping = false;
     bool isInWater = false;
-    bool floorDetected = false;
+    public bool floorDetected = false;
     public bool heartActive = false;
     bool hasGoggles = false;
     bool isDrowning = false;
@@ -39,6 +38,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     public TMP_Text gogglesExplanation;
+    public TMP_Text BoxTitle;
     private Rigidbody playerRB;
     private float jumpForce = 49.0f;
     private float movementSpeed = 15.0f;
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     public float x, y, z;
     private HashSet<GameObject> collidedIslands = new HashSet<GameObject>();
     public MenuPause menuPause;
-    Vector3 lastIsland;
+    public Vector3 lastIsland;
     int lifesNumber;
     int gemsNumber;
     List<BoxCollider> boxColliders;
@@ -108,6 +108,7 @@ public class PlayerController : MonoBehaviour
         {
             gems[i-1].SetActive(true);
             gemEffects[i-1].SetActive(false);
+            diamonds[i-1].SetActive(false);
         }
         
         singletonPattern.SetPlayer(this.gameObject);
@@ -211,10 +212,9 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.CompareTag("portal"))
         {
+            singletonPattern.SetWin(true);
             singletonPattern.PlaySoundEffect(winAudio, 1.0f);
-            this.gameObject.SetActive(false);
-            canvas1.gameObject.SetActive(false);
-            canvas2.gameObject.SetActive(true);
+            singletonPattern.GetDatabase().UpdateData(Vector3.zero);
         }
         if (other.gameObject.CompareTag("pinchos"))
         {
@@ -308,6 +308,12 @@ public class PlayerController : MonoBehaviour
         goggles.SetActive(hasGoggles);
 
         HasFullGems();
+
+        if (singletonPattern.GetWin()){
+            ResumeButton.SetActive(false);
+            BoxTitle.text = "¡Ganaste!";
+            this.gameObject.SetActive(false);
+        }
     }
 
     void HasFullGems()

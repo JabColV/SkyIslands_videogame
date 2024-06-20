@@ -42,6 +42,14 @@ public class MenuPause : MonoBehaviour
         
         // Setear el estado de la restauracion
         singletonPattern.SetRestarting(true);
+        // Restaurar las gafas del jugador
+        singletonPattern.SetHasGoggles(false);
+        // Restaurar el estado gana o pierde
+        singletonPattern.SetWin(false);
+        // Restaurar el estado de las gemas
+        playerController.DiamondDeactivation();
+        // Actualizar los datos del usuario
+        singletonPattern.GetDatabase().UpdateData(playerController.lastIsland);
         // Desuscribirse del evento sceneLoaded para evitar múltiples suscripciones
         SceneManager.sceneLoaded -= SceneRestart;
     }
@@ -69,6 +77,8 @@ public class MenuPause : MonoBehaviour
         singletonPattern.SetCoins(0);
         // Restaurar las gafas del jugador
         singletonPattern.SetHasGoggles(false);
+        // Restaurar el estado gana o pierde
+        singletonPattern.SetWin(false);
         // Actualizar los datos del usuario
         singletonPattern.GetDatabase().UpdateData(new Vector3(-3.700000047683716f, 21.304550170898438f, 171.6999969482422f));
         // Setear el estado de la restauracion

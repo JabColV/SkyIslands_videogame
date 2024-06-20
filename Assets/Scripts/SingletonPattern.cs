@@ -16,6 +16,7 @@ public class SingletonPattern : MonoBehaviour
     bool activeGameAudio = false;
     bool hasGoggles = false;
     bool gemGotten = false;
+    bool win = false;
     int coins;
     int gems;
     int lifesNumber;
@@ -151,6 +152,11 @@ public class SingletonPattern : MonoBehaviour
         return lifesNumber;
     }
 
+    public bool GetWin()
+    {
+        return win;
+    }
+
     public bool GetGemGotten()
     {
         return gemGotten;
@@ -209,6 +215,11 @@ public class SingletonPattern : MonoBehaviour
     public void SetLifes(int lifes)
     {
         this.lifesNumber = lifes;
+    }
+
+    public void SetWin(bool win)
+    {
+        this.win = win;
     }
 
     public void SetIsLoaded(bool isLoaded)
