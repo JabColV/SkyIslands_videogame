@@ -204,57 +204,57 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (singletonPattern.GetWin()){
+        if (singletonPattern.GetWin())
+        {
             Canva1.SetActive(false);
             Canva2.SetActive(true);
         }
+        
+        x = Input.GetAxis("Horizontal");
+        z = Input.GetAxis("Forward");
+        anim.SetFloat("VelX", x);
+        anim.SetFloat("VelY", z);
+
+        Vector3 floor = transform.TransformDirection(Vector3.down);
+        if (Physics.Raycast(transform.position, floor, 1.0f))
+        {
+            floorDetected = true;
+            anim.SetBool("landed", true);
+        }
         else
         {
-            x = Input.GetAxis("Horizontal");
-            z = Input.GetAxis("Forward");
-            anim.SetFloat("VelX", x);
-            anim.SetFloat("VelY", z);
-
-            Vector3 floor = transform.TransformDirection(Vector3.down);
-            if (Physics.Raycast(transform.position, floor, 1.0f))
-            {
-                floorDetected = true;
-                anim.SetBool("landed", true);
-            }
-            else
-            {
-                floorDetected = false;
-                anim.SetBool("landed", false);
-                anim.SetBool("jumped", false);
-            }
-
-            if (Input.GetButtonDown("Jump") && floorDetected && !isInWater)
-            {
-                isJumpping = true;
-            } 
-            else
-            {
-                anim.SetBool("jumped", false);
-            }
-
-            if (isInWater)
-            {
-                WaterConfiguration();
-            }
-
-            if (isInWater && !hasGoggles && !isDrowning)
-            {
-                StartCoroutine(Drown());
-            }
-
-            ShowGogglesHelp();
-            
-            TakeGoggles();
-
-            goggles.SetActive(hasGoggles);
-
-            HasFullGems();
+            floorDetected = false;
+            anim.SetBool("landed", false);
+            anim.SetBool("jumped", false);
         }
+
+        if (Input.GetButtonDown("Jump") && floorDetected && !isInWater)
+        {
+            isJumpping = true;
+        } 
+        else
+        {
+            anim.SetBool("jumped", false);
+        }
+
+        if (isInWater)
+        {
+            WaterConfiguration();
+        }
+
+        if (isInWater && !hasGoggles && !isDrowning)
+        {
+            StartCoroutine(Drown());
+        }
+
+        ShowGogglesHelp();
+        
+        TakeGoggles();
+
+        goggles.SetActive(hasGoggles);
+
+        HasFullGems();
+        
     }
 
     void HasFullGems()

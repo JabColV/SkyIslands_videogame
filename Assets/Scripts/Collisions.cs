@@ -84,9 +84,8 @@ public class Collisions : MonoBehaviour
         {
             lastIsland = this.gameObject.transform.position;
             singletonPattern.PlaySoundEffect(winAudio, 1.0f);
-            singletonPattern.GetDatabase().UpdateData(lastIsland);
             singletonPattern.SetWin(true);
-            Destroy(this.gameObject);
+            singletonPattern.GetDatabase().UpdateData(lastIsland);
             
         }
         if (other.gameObject.CompareTag("pinchos"))
