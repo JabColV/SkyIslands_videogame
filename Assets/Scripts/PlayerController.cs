@@ -205,7 +205,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (singletonPattern.GetWin()){
-            this.gameObject.transform.position = collisions.lastIsland;
             Canva1.SetActive(false);
             Canva2.SetActive(true);
         }
@@ -279,7 +278,7 @@ public class PlayerController : MonoBehaviour
             Quaternion deltaRotation = Quaternion.Euler(0, x * Time.deltaTime * RotationSpeed, 0);
             playerRB.MoveRotation(playerRB.rotation * deltaRotation);
 
-            Vector3 waterMovement = transform.TransformDirection(new Vector3(0, y, 0)) * (movementSpeed + 2.0f) * Time.deltaTime;
+            Vector3 waterMovement = transform.TransformDirection(new Vector3(0, y, 0)) * (movementSpeed*3.0f) * Time.deltaTime;
             Vector3 newPosition = playerRB.position + waterMovement;
             playerRB.MovePosition(newPosition);
         }

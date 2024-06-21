@@ -10,6 +10,7 @@ public class Collisions : MonoBehaviour
     public AudioClip winAudio;
     public AudioClip splasAudio;
     public AudioClip gemAudio;
+    public AudioClip sharkAudio;
     public Vector3 lastIsland;
     #endregion
 
@@ -84,8 +85,9 @@ public class Collisions : MonoBehaviour
             lastIsland = this.gameObject.transform.position;
             singletonPattern.PlaySoundEffect(winAudio, 1.0f);
             singletonPattern.GetDatabase().UpdateData(lastIsland);
-            
             singletonPattern.SetWin(true);
+            Destroy(this.gameObject);
+            
         }
         if (other.gameObject.CompareTag("pinchos"))
         {
@@ -99,6 +101,11 @@ public class Collisions : MonoBehaviour
             coins += 1;
             coinsText.text = coins.ToString();
             singletonPattern.SetCoins(coins);
+        }
+        if (other.gameObject.CompareTag("Shark"))
+        {
+            singletonPattern.PlaySoundEffect(sharkAudio, 1.0f);
+            singletonPattern.GetPlayerController().loseLife();
         }
     }
 
