@@ -8,6 +8,7 @@ public class MenuPause : MonoBehaviour
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject Menu;
     public PlayerController playerController;
+    public Collisions collisions;
     // To store the singleton pattern instance
     SingletonPattern singletonPattern;
 
@@ -17,6 +18,9 @@ public class MenuPause : MonoBehaviour
         singletonPattern = SingletonPattern.Instance;
     }
 
+    // =========================================================================================================
+
+    // Pause the game
     public void Pause()
     {
         Time.timeScale = 0f;
@@ -24,6 +28,9 @@ public class MenuPause : MonoBehaviour
         Menu.SetActive(true);
     }
 
+    // =========================================================================================================
+
+    // Resume the game
     public void Resume()
     {
         Time.timeScale = 1f;
@@ -31,34 +38,18 @@ public class MenuPause : MonoBehaviour
         Menu.SetActive(false);
     }
 
+    // =========================================================================================================
+
     public void LastMemory()
     {
         StartCoroutine(ReloadData("FirstLevel", false));
     }
 
-    void SceneLastMemory(Scene scene, LoadSceneMode mode)
-    {
-        
-        
-        // Setear el estado de la restauracion
-        singletonPattern.SetRestarting(true);
-        // Restaurar las gafas del jugador
-        singletonPattern.SetHasGoggles(false);
-        // Restaurar el estado gana o pierde
-        singletonPattern.SetWin(false);
-        // Restaurar el estado de las gemas
-        playerController.DiamondDeactivation();
-        // Actualizar los datos del usuario
-        singletonPattern.GetDatabase().UpdateData(playerController.lastIsland);
-        // Desuscribirse del evento sceneLoaded para evitar múltiples suscripciones
-        SceneManager.sceneLoaded -= SceneRestart;
-    }
-
+    // =========================================================================================================
+    // Restart the game
     public void Restart()
     {
         Time.timeScale = 1f;
-        // Para saber el estado de la restauracion
-        singletonPattern.SetRestarting(false);
         // Restaurar el estado de las gemas
         playerController.DiamondDeactivation();
         // Suscribirse al evento sceneLoaded antes de cargar la escena
@@ -81,21 +72,27 @@ public class MenuPause : MonoBehaviour
         singletonPattern.SetWin(false);
         // Actualizar los datos del usuario
         singletonPattern.GetDatabase().UpdateData(new Vector3(-3.700000047683716f, 21.304550170898438f, 171.6999969482422f));
-        // Setear el estado de la restauracion
-        singletonPattern.SetRestarting(true);
         // Desuscribirse del evento sceneLoaded para evitar múltiples suscripciones
         SceneManager.sceneLoaded -= SceneRestart;
     }
 
-    public IEnumerator ReloadData(string sceneName = "InitialMenu", bool sceneLoaded = true)
+    // =========================================================================================================
+
+    // Load game scene
+    public void LoadSceneMain()
     {
+        // Iniciar la corutina ReloadData
+        StartCoroutine(ReloadData("InitialMenu", true));
+    }
+
+    public IEnumerator ReloadData(string sceneName, bool sceneLoaded)
+    {
+        // Setear el estado de carga de datos
         singletonPattern.SetIsLoaded(false);
         // Obtener los datos del usuario
         singletonPattern.GetDatabase().GetData();
-
         // Esperar a que los datos se carguen completamente
         yield return new WaitUntil(() => singletonPattern.IsLoaded() == true);
-
         if (sceneLoaded)
         {
             // Suscribirse al evento sceneLoaded antes de cargar la escena
@@ -119,9 +116,4 @@ public class MenuPause : MonoBehaviour
         }
     }
 
-    public void LoadSceneMain()
-    {
-        // Iniciar la corutina ReloadData
-        StartCoroutine(ReloadData());
-    }
 }

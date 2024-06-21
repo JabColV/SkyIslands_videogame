@@ -128,7 +128,6 @@ public class FirebaseDatabase : MonoBehaviour
 
     void OnSaveSuccessGet(string userDataJson)
     {
-        Debug.Log("Desde OnSaveSuccessGet "+ userDataJson);
         // Verificar si los datos del usuario no son nulos
         if (string.IsNullOrEmpty(userDataJson) || userDataJson == "null")
         {
