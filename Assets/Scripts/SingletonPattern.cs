@@ -11,7 +11,7 @@ public class SingletonPattern : MonoBehaviour
     public GameObject? WelcomeInterface;
     public GameObject? MainInterface;
     bool isLoaded = false;
-    bool isRestarting = false;
+    // bool isRestarting = false;
     bool isInWater = false;
     bool activeGameAudio = false;
     bool hasGoggles = false;
@@ -162,10 +162,10 @@ public class SingletonPattern : MonoBehaviour
         return gemGotten;
     }
 
-    public bool IsRestarting()
-    {
-        return isRestarting;
-    }
+    // public bool IsRestarting()
+    // {
+    //     return isRestarting;
+    // }
 
     public AudioClip GetGameAudioSong()
     {
@@ -177,10 +177,10 @@ public class SingletonPattern : MonoBehaviour
         this.isInWater = isInWater;
     }
 
-    public void SetRestarting(bool isRestarting)
-    {
-        this.isRestarting = isRestarting;
-    }
+    // public void SetRestarting(bool isRestarting)
+    // {
+    //     this.isRestarting = isRestarting;
+    // }
 
     public void SetGemGotten(bool gemGotten)
     {

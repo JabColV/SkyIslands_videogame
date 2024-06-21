@@ -7,6 +7,9 @@ public class MainMenu : MonoBehaviour
 {
     SingletonPattern singletonPattern;
     public TMP_Text nameText;
+    public TMP_Text total_gems;
+    public TMP_Text total_coins;
+    public TMP_Text total_lifes;
 
     private void OnEnable()
     {
@@ -23,6 +26,12 @@ public class MainMenu : MonoBehaviour
         {
             // Asignar el nombre del usuario a un objeto Text
             nameText.text = "Bienvenido usuario " + singletonPattern.GetDatabase().GetDataUserInfo().name;
+            // Asignar el número de gemas del usuario a un objeto Text
+            total_gems.text = singletonPattern.GetDatabase().GetDataUserInfo().gemas.ToString();
+            // Asignar el número de monedas del usuario a un objeto Text
+            total_coins.text = singletonPattern.GetDatabase().GetDataUserInfo().totalCoins.ToString();
+            // Asignar el número de vidas del usuario a un objeto Text
+            total_lifes.text = singletonPattern.GetDatabase().GetDataUserInfo().vidas.ToString();
         }
         else
         {
