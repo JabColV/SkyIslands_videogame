@@ -30,32 +30,41 @@ public class QuizLogic : MonoBehaviour
     private int currentQuestionIndex = -1;
     private int selectedAnswer = -1;
     private int continueGLoop = 0;
-    private int randomIndex = 0;
+    private int randomIndex = -1;
     private bool hasFirstPlanks = false;
     private bool hasSecondPlanks = false;
     
+  
     // Start is called before the first frame update
     void Start()
     {
         singletonPattern = SingletonPattern.Instance;
+        singletonPattern.SetPanelQuestionInterface(questionPanel);
         // Inicializamos la lista de índices disponibles con todos los índices de las preguntas
         availableIndices = new List<int>();
         for (int i = 0; i < questions.Count; i++)
         {
             availableIndices.Add(i);
         }
-        // Mostramos la primera pregunta
+        singletonPattern.SetAvailableIndices(availableIndices);
         ShowRandomQuestion();
     }
 
     public void ShowRandomQuestion()
     {
-        UpdateCheck(-1);
-        if (availableIndices.Count > 0)
+        Debug.Log("selectedAnswer" + selectedAnswer);
+        UpdateCheck(-1); // Reinicio de la selección de respuestas
+        selectedAnswer = -1; // Reinicio de la respuesta seleccionada anteriormente
+        canvasScore.SetActive(false);
+        Debug.Log("Nueva Lista");
+        Debug.Log("Indices: " + string.Join(", ", singletonPattern.GetAvailableIndices())); 
+
+        if (singletonPattern.GetAvailableIndices().Count > 0)
         {
             // Seleccionamos un índice aleatorio de los disponibles
-            randomIndex = Random.Range(0, availableIndices.Count);
-            currentQuestionIndex = availableIndices[randomIndex];
+            randomIndex = Random.Range(0, singletonPattern.GetAvailableIndices().Count);
+            currentQuestionIndex = singletonPattern.GetAvailableIndices()[randomIndex];
+            Debug.Log("Nueva pregunta" + randomIndex);
 
             Question currentQuestion = questions[currentQuestionIndex];
             questionText.text = currentQuestion.questionText;
@@ -65,6 +74,10 @@ public class QuizLogic : MonoBehaviour
                 if (i < currentQuestion.options.Length)
                 {
                     optionTexts[i].text = currentQuestion.options[i];
+                }
+                else
+                {
+                    optionTexts[i].text = ""; // Vaciar opciones no usadas
                 }
             }
         }
@@ -96,17 +109,22 @@ public class QuizLogic : MonoBehaviour
 
     public void CheckAnswer()
     {
-        if (selectedAnswer == -1)
-        {
-            return;
-        }
+        if (selectedAnswer == -1) return;
+
         if (selectedAnswer == questions[currentQuestionIndex].correctAnswerIndex)
         {
+            Debug.Log("Tamaño restante de availableIndices 1: " + singletonPattern.GetAvailableIndices().Count);
+            // Eliminar del índice de preguntas disponibles
+            Debug.Log("Índice aleatorio (randomIndex): " + randomIndex);
+            Debug.Log("Índice de la pregunta actual (currentQuestionIndex): " + currentQuestionIndex);
+            // Eliminar usando randomIndex para asegurar que se elimine correctamente
+            singletonPattern.RemoveAvailableIndices(randomIndex);
+            Debug.Log("Tamaño restante de availableIndices 2: " + singletonPattern.GetAvailableIndices().Count);
+
             // Se activa interfaz de correcto y se desactiva el panel de preguntas
             canvasScore.SetActive(false);
             correct.SetActive(true);
             questionPanel.SetActive(false);
-            availableIndices.RemoveAt(randomIndex);  // Eliminamos el índice para que no se repita
         }
         else
         {

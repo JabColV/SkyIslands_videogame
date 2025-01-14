@@ -14,7 +14,7 @@ public class SingletonPattern : MonoBehaviour
     bool isLoaded = false;
     // bool isRestarting = false;
     bool isInWater = false;
-    bool activeGameAudio = false;
+    // bool activeGameAudio = false;
     bool hasGoggles = false;
     bool gemGotten = false;
     bool win = false;
@@ -25,6 +25,7 @@ public class SingletonPattern : MonoBehaviour
     int lifesNumber;
     public AudioClip gameAudioSong;
     public List<AudioSource> audioSources;
+    private List<int> availableIndices;
     #endregion
 
     #region External variables
@@ -198,6 +199,26 @@ public class SingletonPattern : MonoBehaviour
     public bool IsLoaded()
     {
         return isLoaded;
+    }
+
+    public List<int> GetAvailableIndices()
+    {
+        return this.availableIndices; 
+    } 
+
+    public void SetAvailableIndices(List<int> listI)
+    {
+        this.availableIndices = listI;
+    }
+
+    public void AddAvailableIndices(int index)
+    {
+        this.availableIndices.Add(index);
+    }
+
+    public void RemoveAvailableIndices(int index)
+    {
+        this.availableIndices.RemoveAt(index);
     }
 
     public void SetPlayer(GameObject player)

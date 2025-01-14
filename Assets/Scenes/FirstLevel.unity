@@ -496,7 +496,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1074159216}
+      - m_Target: {fileID: 1289166742}
         m_TargetAssemblyTypeName: QuizLogic, Assembly-CSharp
         m_MethodName: UpdateSelectedIndex
         m_Mode: 3
@@ -1280,7 +1280,7 @@ MonoBehaviour:
   y: 0
   z: 0
   menuPause: {fileID: 173168545}
-  quizLogic: {fileID: 1074159216}
+  quizLogic: {fileID: 0}
   gemsNumber: 0
   _gravity: 0
   _fallVelocity: 0
@@ -9200,7 +9200,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1074159216}
+      - m_Target: {fileID: 1289166742}
         m_TargetAssemblyTypeName: QuizLogic, Assembly-CSharp
         m_MethodName: ButtonContinueFailed
         m_Mode: 1
@@ -15627,7 +15627,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1074159216}
+      - m_Target: {fileID: 1289166742}
         m_TargetAssemblyTypeName: QuizLogic, Assembly-CSharp
         m_MethodName: UpdateSelectedIndex
         m_Mode: 3
@@ -24316,8 +24316,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190335
-  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
+    rgba: 4281677442
+  m_fontColor: {r: 0.50980395, g: 0.21176471, b: 0.20784314, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -26620,7 +26620,6 @@ GameObject:
   - component: {fileID: 1074159213}
   - component: {fileID: 1074159215}
   - component: {fileID: 1074159214}
-  - component: {fileID: 1074159216}
   m_Layer: 5
   m_Name: QuizTableBG
   m_TagString: Untagged
@@ -26688,78 +26687,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074159212}
   m_CullTransparentMesh: 1
---- !u!114 &1074159216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1074159212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b08a3e5a95d0f94ab8d290a6c7e684a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  questions:
-  - questionText: "\xBFQu\xE9 es un n\xFAmero primo?"
-    options:
-    - Son aquellos que al dividirlos por dos su residuo siemrpe es cero.
-    - "Son aquellos que solo  tienen 2 factores: el n\xFAmero 1 y ellos mismos."
-    - "Un n\xFAmero mayor que 1 que siempre es impar."
-    - "Un n\xFAmero que solo es divisible entre los n\xFAmeros pares."
-    correctAnswerIndex: 1
-  - questionText: "\xBFCu\xE1l de los siguientes n\xFAmeros es primo?"
-    options:
-    - 4
-    - 8
-    - 6
-    - 5
-    correctAnswerIndex: 3
-  - questionText: "\xBFCu\xE1ntos divisores tiene el n\xFAmero 7?"
-    options:
-    - 2
-    - 1
-    - 3
-    - 4
-    correctAnswerIndex: 0
-  - questionText: "\xBFEs el n\xFAmero 15 un n\xFAmero primo?"
-    options:
-    - "S\xED, porque solo tiene dos divisores."
-    - No, porque es divisible por 3 y 5.
-    - "S\xED, porque es un n\xFAmero impar."
-    - No, porque es menor que 10.
-    correctAnswerIndex: 1
-  questionText: {fileID: 745918350}
-  failedphrase: {fileID: 706808627}
-  optionTexts:
-  - {fileID: 1895156640}
-  - {fileID: 176519457}
-  - {fileID: 1866923340}
-  - {fileID: 1719189425}
-  checkboxes:
-  - {fileID: 216199476}
-  - {fileID: 522084933}
-  - {fileID: 1444707381}
-  - {fileID: 1681734818}
-  first_planks:
-  - {fileID: 1086338754}
-  - {fileID: 1328063894}
-  - {fileID: 2133895817}
-  second_planks:
-  - {fileID: 1801723201}
-  - {fileID: 826027960}
-  - {fileID: 22261841}
-  failed_planks:
-  - {fileID: 418901222}
-  - {fileID: 1540910629}
-  - {fileID: 401776340}
-  - {fileID: 5510482179688315498}
-  - {fileID: 1203097649}
-  - {fileID: 1505962578}
-  correct: {fileID: 1170530861}
-  incorrect: {fileID: 1179996290}
-  questionPanel: {fileID: 1289166736}
-  canvasScore: {fileID: 173168540}
 --- !u!1 &1085063713
 GameObject:
   m_ObjectHideFlags: 0
@@ -27197,7 +27124,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1131922313
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27917,7 +27844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.15472585, g: 0.5377358, b: 0.1738809, a: 1}
+  m_Color: {r: 0.16078432, g: 0.45490196, b: 0.29803923, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -28128,7 +28055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6226415, g: 0.13510138, b: 0.13510138, a: 1}
+  m_Color: {r: 0.509434, g: 0.21042171, b: 0.2042542, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -29123,7 +29050,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1074159216}
+      - m_Target: {fileID: 1289166742}
         m_TargetAssemblyTypeName: QuizLogic, Assembly-CSharp
         m_MethodName: CheckAnswer
         m_Mode: 1
@@ -29954,13 +29881,14 @@ GameObject:
   - component: {fileID: 1289166738}
   - component: {fileID: 1289166737}
   - component: {fileID: 1289166741}
+  - component: {fileID: 1289166742}
   m_Layer: 5
   m_Name: CanvasQuestion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1289166737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30056,6 +29984,85 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1289166742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289166736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b08a3e5a95d0f94ab8d290a6c7e684a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questions:
+  - questionText: "\xBFQu\xE9 n\xFAmero es primo entre los siguientes?"
+    options:
+    - 10
+    - 18
+    - 15
+    - 13
+    correctAnswerIndex: 3
+  - questionText: "\xBFCu\xE1ntos divisores tiene el n\xFAmero 7?"
+    options:
+    - 1
+    - 2
+    - 3
+    - 4
+    correctAnswerIndex: 1
+  - questionText: "\xBFEs el n\xFAmero 15 un n\xFAmero primo?"
+    options:
+    - "S\xED, porque solo tiene dos divisores."
+    - No, porque es menor que 10.
+    - No, porque es divisible por 3 y 5.
+    - "S\xED, porque es un n\xFAmero impar."
+    correctAnswerIndex: 2
+  - questionText: "\xBFQu\xE9 son los n\xFAmeros primos?"
+    options:
+    - "N\xFAmeros que solo tienen dos divisores: 1 y ellos mismos."
+    - "N\xFAmeros que son divisibles entre cualquier n\xFAmero."
+    - "N\xFAmeros que solo son divisibles entre los n\xFAmeros pares."
+    - "N\xFAmeros mayores que 1 que siempre son impares."
+    correctAnswerIndex: 0
+  - questionText: "\xBFCu\xE1l de los siguientes n\xFAmeros no es primo?"
+    options:
+    - 2
+    - 3
+    - 9
+    - 11
+    correctAnswerIndex: 2
+  questionText: {fileID: 745918350}
+  failedphrase: {fileID: 706808627}
+  optionTexts:
+  - {fileID: 1895156640}
+  - {fileID: 176519457}
+  - {fileID: 1866923340}
+  - {fileID: 1719189425}
+  checkboxes:
+  - {fileID: 216199476}
+  - {fileID: 522084933}
+  - {fileID: 1444707381}
+  - {fileID: 1681734818}
+  first_planks:
+  - {fileID: 1086338754}
+  - {fileID: 1328063894}
+  - {fileID: 2133895817}
+  second_planks:
+  - {fileID: 1801723201}
+  - {fileID: 826027960}
+  - {fileID: 22261841}
+  failed_planks:
+  - {fileID: 5510482179688315498}
+  - {fileID: 1203097649}
+  - {fileID: 1505962578}
+  - {fileID: 418901222}
+  - {fileID: 1540910629}
+  - {fileID: 401776340}
+  correct: {fileID: 1170530861}
+  incorrect: {fileID: 1179996290}
+  questionPanel: {fileID: 1131922312}
+  canvasScore: {fileID: 173168540}
 --- !u!1 &1289790154
 GameObject:
   m_ObjectHideFlags: 0
@@ -37972,7 +37979,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1074159216}
+      - m_Target: {fileID: 1289166742}
         m_TargetAssemblyTypeName: QuizLogic, Assembly-CSharp
         m_MethodName: UpdateSelectedIndex
         m_Mode: 3
@@ -46006,7 +46013,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1074159216}
+      - m_Target: {fileID: 1289166742}
         m_TargetAssemblyTypeName: QuizLogic, Assembly-CSharp
         m_MethodName: UpdateSelectedIndex
         m_Mode: 3
@@ -46681,7 +46688,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1074159216}
+      - m_Target: {fileID: 1289166742}
         m_TargetAssemblyTypeName: QuizLogic, Assembly-CSharp
         m_MethodName: ResumeGameWin
         m_Mode: 1
