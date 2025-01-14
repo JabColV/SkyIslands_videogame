@@ -40,6 +40,7 @@ public class QuizLogic : MonoBehaviour
     {
         singletonPattern = SingletonPattern.Instance;
         singletonPattern.SetPanelQuestionInterface(questionPanel);
+        singletonPattern.SetQuizLogic(this.GetComponent<QuizLogic>());
         // Inicializamos la lista de índices disponibles con todos los índices de las preguntas
         availableIndices = new List<int>();
         for (int i = 0; i < questions.Count; i++)
@@ -47,15 +48,14 @@ public class QuizLogic : MonoBehaviour
             availableIndices.Add(i);
         }
         singletonPattern.SetAvailableIndices(availableIndices);
-        questionPanel.SetActive(false);
         ShowRandomQuestion();
     }
 
     public void ShowRandomQuestion()
     {
         Debug.Log("selectedAnswer" + selectedAnswer);
-        UpdateCheck(-1); // Reinicio de la selección de respuestas
         selectedAnswer = -1; // Reinicio de la respuesta seleccionada anteriormente
+        UpdateCheck(selectedAnswer); // Reinicio de la selección de respuestas
         Debug.Log("Nueva Lista");
         Debug.Log("Indices: " + string.Join(", ", singletonPattern.GetAvailableIndices())); 
 
@@ -204,12 +204,14 @@ public class QuizLogic : MonoBehaviour
 
     public void ContinueGame(GameObject[] listPlanks)
     {
+        continueGLoop = 0;
         canvasScore.SetActive(true);
         Time.timeScale = 1f;
         questionPanel.SetActive(false);
         correct.SetActive(false);
         incorrect.SetActive(false);
         ActivatePlanks(listPlanks);
+        ShowRandomQuestion();
         singletonPattern.GetDatabase().UpdateData(singletonPattern.GetPlayerController().GetCollisions().lastIsland);
     }
 

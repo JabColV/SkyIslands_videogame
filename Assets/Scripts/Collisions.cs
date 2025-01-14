@@ -111,6 +111,7 @@ public class Collisions : MonoBehaviour
         {
             Time.timeScale = 0f;
             collidedPlanks.Add(other.gameObject);
+            singletonPattern.GetQuizLogic().canvasScore.SetActive(false);
             singletonPattern.GetPanelQuestionInterface().SetActive(true);
         }
     }

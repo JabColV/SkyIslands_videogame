@@ -32,6 +32,7 @@ public class SingletonPattern : MonoBehaviour
     FirebaseDatabase database;
     FirebaseAuth firebaseAuth;
     PlayerController playerController;
+    QuizLogic quizLogic;
     #endregion
 
     private void Awake()
@@ -129,6 +130,11 @@ public class SingletonPattern : MonoBehaviour
     public GameObject GetMainInterface()
     {
         return MainInterface;
+    }
+
+    public QuizLogic GetQuizLogic()
+    {
+        return quizLogic;
     }
 
     public GameObject GetPanelQuestionInterface()
@@ -279,6 +285,11 @@ public class SingletonPattern : MonoBehaviour
     public void SetPlayerController(PlayerController playerController)
     {
         this.playerController = playerController;
+    }
+
+    public void SetQuizLogic(QuizLogic quizLogic)
+    {
+        this.quizLogic = quizLogic;
     }
     
     public void SetPanelQuestionInterface(GameObject panelQuestionInterface)
