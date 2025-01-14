@@ -60,17 +60,13 @@ public class PlayerController : MonoBehaviour
     {
         singletonPattern = SingletonPattern.Instance;
         collisions = GetComponent<Collisions>();
+        quizLogic = GetComponent<QuizLogic>();
         playerRB = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         boxColliders = new List<BoxCollider>(ocean.GetComponents<BoxCollider>());
         StartCoroutine(LoadStatus());
         _gravity = 60f; // Gravedad
         singletonPattern.SetPanelQuestionInterface(questionPanel);
-        // singletonPattern.SetCollisions(collisions);
-        // if (collisions == null)
-        // {
-        //     Debug.Log("collisions es null");
-        // }
     }
 
     public IEnumerator LoadStatus()
@@ -84,10 +80,12 @@ public class PlayerController : MonoBehaviour
         collisions.SetCoins(singletonPattern.GetDatabase().GetDataUserInfo().totalCoins);
         hasGoggles = singletonPattern.GetDatabase().GetDataUserInfo().hasGoggles;
         singletonPattern.SetHasGoggles(hasGoggles);
-        // quizLogic.ActivatePlanks(first_planks, singletonPattern.GetHasFirstPlanks());
-        // quizLogic.ActivatePlanks(second_planks, singletonPattern.GetHasSecondPlanks());
-        // boxCollider[0].enabled = !singletonPattern.GetHasFirstPlanks();
-        // boxCollider[1].enabled = !singletonPattern.GetHasSecondPlanks();
+        singletonPattern.SetHasFirstPlanks(singletonPattern.GetDatabase().GetDataUserInfo().hasFirstPlanks);
+        singletonPattern.SetHasSecondPlanks(singletonPattern.GetDatabase().GetDataUserInfo().hasSecondPlanks);
+        quizLogic.ActivatePlanks(first_planks, singletonPattern.GetHasFirstPlanks());
+        quizLogic.ActivatePlanks(second_planks, singletonPattern.GetHasSecondPlanks());
+        boxCollider[0].enabled = !singletonPattern.GetHasFirstPlanks();
+        boxCollider[1].enabled = !singletonPattern.GetHasSecondPlanks();
 
         //Life configuration
         if (lifesNumber == 0)
@@ -126,6 +124,11 @@ public class PlayerController : MonoBehaviour
         
         singletonPattern.SetPlayer(this.gameObject);
         singletonPattern.SetPlayerController(this.GetComponent<PlayerController>());
+    }
+
+    public Collisions GetCollisions()
+    {
+        return collisions;
     }
 
     public void DesactivateLife(int indice)

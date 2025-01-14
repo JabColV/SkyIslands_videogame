@@ -75,8 +75,8 @@ public class MenuPause : MonoBehaviour
         // Restaurar el estado gana o pierde
         singletonPattern.SetWin(false);
         // Restaurar los tabloes de las escaleras
-        // singletonPattern.SetHasFirstPlanks(false);
-        // singletonPattern.SetHasSecondPlanks(false);
+        singletonPattern.SetHasFirstPlanks(false);
+        singletonPattern.SetHasSecondPlanks(false);
         // Actualizar los datos del usuario
         singletonPattern.GetDatabase().UpdateData(new Vector3(-3.700000047683716f, 21.304550170898438f, 171.6999969482422f));
         // Desuscribirse del evento sceneLoaded para evitar múltiples suscripciones
@@ -99,18 +99,8 @@ public class MenuPause : MonoBehaviour
         // Obtener los datos del usuario
         singletonPattern.GetDatabase().GetData();
 
-        if (singletonPattern.GetDatabase() == null)
-        {
-            Debug.LogError("El objeto de la base de datos NO está configurado.");
-        }
-        else
-        {
-            Debug.LogError("El objeto de la base de datos SI está configurado.");
-        }
-
         // Esperar a que los datos se carguen completamente
         yield return new WaitUntil(() => singletonPattern.IsLoaded() == true);
-        Debug.Log("Datos cargados");
 
         if (sceneLoaded)
         {

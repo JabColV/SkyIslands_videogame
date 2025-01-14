@@ -27,12 +27,11 @@ public class FirebaseDatabase : MonoBehaviour
         public int gemas;
         public bool hasGoggles;
         public bool win;
-        // public bool hasFirstPlanks;
-        // public bool hasSecondPlanks;
+        public bool hasFirstPlanks;
+        public bool hasSecondPlanks;
         public Vector3 position;
 
-        // public StoredUserData(string id, string name, int totalCoins, int vidas, int gemas, bool hasGoggles, bool win, bool hasFirstPlanks, bool hasSecondPlanks, Vector3 position)
-        public StoredUserData(string id, string name, int totalCoins, int vidas, int gemas, bool hasGoggles, bool win, Vector3 position)
+        public StoredUserData(string id, string name, int totalCoins, int vidas, int gemas, bool hasGoggles, bool win, bool hasFirstPlanks, bool hasSecondPlanks, Vector3 position)
         {
             this.id = id;
             this.name = name;
@@ -41,10 +40,18 @@ public class FirebaseDatabase : MonoBehaviour
             this.gemas = gemas;
             this.hasGoggles = hasGoggles;
             this.win = win;
-            // this.hasFirstPlanks = hasFirstPlanks;
-            // this.hasSecondPlanks = hasSecondPlanks;
+            this.hasFirstPlanks = hasFirstPlanks;
+            this.hasSecondPlanks = hasSecondPlanks;
             this.position = position;
         }
+
+        public override string ToString()
+        {
+            return $"ID: {id}, Name: {name}, TotalCoins: {totalCoins}, Vidas: {vidas}, Gemas: {gemas}, " +
+                $"HasGoggles: {hasGoggles}, Win: {win}, HasFirstPlanks: {hasFirstPlanks}, HasSecondPlanks: {hasSecondPlanks}, " +
+                $"Position: {position}";
+        }
+
     }
 
     public StoredUserData GetDataUserInfo()
@@ -84,8 +91,7 @@ public class FirebaseDatabase : MonoBehaviour
             // Crear una posición inicial para el jugador
             Vector3 initialposition = new Vector3(-3.700000047683716f, 21.304550170898438f, 171.6999969482422f);
             // Crear un nuevo objeto StoredUserData para la serialización
-            // dataUser = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, 0, 3, 0, false, false, false, false, initialposition);
-            dataUser = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, 0, 3, 0, false, false, initialposition);
+            dataUser = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, 0, 3, 0, false, false, false, false, initialposition);
             // Crear la ruta para crear los datos del usuario
             string path = "users/" + dataUser.id;
             // Convertir el objeto a una cadena JSON usando JsonUtility
@@ -115,15 +121,15 @@ public class FirebaseDatabase : MonoBehaviour
             // Sumar las restar las vidas
             int totalVidas = singletonPattern.GetLifes();
             // Actualizar los tablones de madera
-            // bool hasFP = singletonPattern.GetHasFirstPlanks();
-            // bool hasSP = singletonPattern.GetHasSecondPlanks();
+            bool hasFP = singletonPattern.GetHasFirstPlanks();
+            bool hasSP = singletonPattern.GetHasSecondPlanks();
             if (position == Vector3.zero)
             {
                 position = singletonPattern.GetPlayer().transform.position;
             }
             // Crear un nuevo objeto StoredUserData para la serialización
-            // var data = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, totalCoins, totalVidas, totalGems, hasGoggles, win, hasFP, hasSP, position);
-            var data = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, totalCoins, totalVidas, totalGems, hasGoggles, win, position);
+            var data = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, totalCoins, totalVidas, totalGems, hasGoggles, win, hasFP, hasSP, position);
+            // var data = new StoredUserData(singletonPattern.GetFirebaseAuth().GetUserData().userId, singletonPattern.GetFirebaseAuth().GetUserData().userName, totalCoins, totalVidas, totalGems, hasGoggles, win, position);
             // Crear la ruta para actualizar los datos del usuario
             string path = "users/" + data.id;
             // Convertir el objeto a una cadena JSON usando JsonUtility

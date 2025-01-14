@@ -32,18 +32,6 @@ public class MainMenu : MonoBehaviour
             total_coins.text = singletonPattern.GetDatabase().GetDataUserInfo().totalCoins.ToString();
             // Asignar el número de vidas del usuario a un objeto Text
             total_lifes.text = singletonPattern.GetDatabase().GetDataUserInfo().vidas.ToString();
-            // Restablecer tablones
-            // singletonPattern.GetPlayerController().quizLogic.ActivatePlanks(singletonPattern.GetPlayerController().first_planks, singletonPattern.GetHasFirstPlanks());
-             
-            // if (singletonPattern.GetHasFirstPlanks())
-            // {
-            //     Debug.Log("Es reeee True");
-            // }
-            // else
-            // {
-            //     Debug.Log("Es reeee False");
-            // }
-            // singletonPattern.GetPlayerController().quizLogic.ActivatePlanks(singletonPattern.GetPlayerController().second_planks, singletonPattern.GetHasSecondPlanks());
         }
         else
         {

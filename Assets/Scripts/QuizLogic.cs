@@ -192,22 +192,21 @@ public class QuizLogic : MonoBehaviour
         correct.SetActive(false);
         incorrect.SetActive(false);
         ActivatePlanks(listPlanks);
-        // singletonPattern.GetDatabase().UpdateData(singletonPattern.GetCollisions().lastIsland);
+        singletonPattern.GetDatabase().UpdateData(singletonPattern.GetPlayerController().GetCollisions().lastIsland);
     }
 
     public void ResumeGameWin()
     {
-        if (!hasFirstPlanks)
+        if (!singletonPattern.GetHasFirstPlanks())
         {
-            // singletonPattern.SetHasFirstPlanks(true);
             hasFirstPlanks = true;
+            singletonPattern.SetHasFirstPlanks(hasFirstPlanks);
             ContinueGame(first_planks);
         }
-        // else if (!singletonPattern.GetHasSecondPlanks())
-        else if (!hasSecondPlanks)
+        else if (!singletonPattern.GetHasSecondPlanks())
         {
-            // singletonPattern.SetHasSecondPlanks(true);
             hasSecondPlanks = true;
+            singletonPattern.SetHasSecondPlanks(hasSecondPlanks);
             ContinueGame(second_planks);
         }
         else
