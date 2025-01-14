@@ -13,6 +13,8 @@ TagManager:
   - Shark
   - portal
   - pinchos
+  - MovingPlatform
+  - wooden_plank
   layers:
   - Default
   - TransparentFX

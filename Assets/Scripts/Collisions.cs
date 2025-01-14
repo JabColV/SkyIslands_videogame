@@ -18,6 +18,7 @@ public class Collisions : MonoBehaviour
     int coins;
     public AudioClip coinAudio;
     private HashSet<GameObject> collidedIslands = new HashSet<GameObject>();
+    private HashSet<GameObject> collidedPlanks = new HashSet<GameObject>();
     SingletonPattern singletonPattern;
 
     // Start is called before the first frame update
@@ -105,6 +106,15 @@ public class Collisions : MonoBehaviour
         {
             singletonPattern.PlaySoundEffect(sharkAudio, 1.0f);
             singletonPattern.GetPlayerController().loseLife();
+        }
+        // if (other.gameObject.CompareTag("wooden_plank") && !collidedPlanks.Contains(other.gameObject) && (!singletonPattern.GetHasFirstPlanks() || !singletonPattern.GetHasSecondPlanks()))
+        if (other.gameObject.CompareTag("wooden_plank") && !collidedPlanks.Contains(other.gameObject))
+        {
+            //singletonPattern.PlaySoundEffect(sharkAudio, 1.0f);
+            // singletonPattern.SetCollisions(this.GetComponent<Collisions>());
+            Time.timeScale = 0f;
+            collidedPlanks.Add(other.gameObject);
+            singletonPattern.GetPanelQuestionInterface().SetActive(true);
         }
     }
 

@@ -10,6 +10,7 @@ public class SingletonPattern : MonoBehaviour
     GameObject? player;
     public GameObject? WelcomeInterface;
     public GameObject? MainInterface;
+    public GameObject panelQuestionInterface;
     bool isLoaded = false;
     // bool isRestarting = false;
     bool isInWater = false;
@@ -17,6 +18,8 @@ public class SingletonPattern : MonoBehaviour
     bool hasGoggles = false;
     bool gemGotten = false;
     bool win = false;
+    // bool hasFirstPlanks = false;
+    // bool hasSecondPlanks = false;
     int coins;
     int gems;
     int lifesNumber;
@@ -28,6 +31,7 @@ public class SingletonPattern : MonoBehaviour
     FirebaseDatabase database;
     FirebaseAuth firebaseAuth;
     PlayerController playerController;
+    // Collisions collisions;
     #endregion
 
     private void Awake()
@@ -127,6 +131,11 @@ public class SingletonPattern : MonoBehaviour
         return MainInterface;
     }
 
+    public GameObject GetPanelQuestionInterface()
+    {
+        return panelQuestionInterface;
+    }
+
     public bool GetIsInWater()
     {
         return isInWater;
@@ -161,10 +170,13 @@ public class SingletonPattern : MonoBehaviour
     {
         return gemGotten;
     }
-
-    // public bool IsRestarting()
+    // public bool GetHasFirstPlanks()
     // {
-    //     return isRestarting;
+    //     return hasFirstPlanks;
+    // }
+    // public bool GetHasSecondPlanks()
+    // {
+    //     return hasSecondPlanks;
     // }
 
     public AudioClip GetGameAudioSong()
@@ -176,11 +188,6 @@ public class SingletonPattern : MonoBehaviour
     {
         this.isInWater = isInWater;
     }
-
-    // public void SetRestarting(bool isRestarting)
-    // {
-    //     this.isRestarting = isRestarting;
-    // }
 
     public void SetGemGotten(bool gemGotten)
     {
@@ -226,6 +233,14 @@ public class SingletonPattern : MonoBehaviour
     {
         this.isLoaded = isLoaded;
     }
+    // public void SetHasFirstPlanks(bool fPlanks)
+    // {
+    //     this.hasFirstPlanks = fPlanks;
+    // }
+    // public void SetHasSecondPlanks(bool sPlanks)
+    // {
+    //     this.hasSecondPlanks = sPlanks;
+    // }
 
     public FirebaseDatabase GetDatabase()
     {
@@ -237,10 +252,25 @@ public class SingletonPattern : MonoBehaviour
         return firebaseAuth;
     }
 
+    // public Collisions GetCollisions()
+    // {
+    //     return collisions;
+    // }
+
     public void SetPlayerController(PlayerController playerController)
     {
         this.playerController = playerController;
     }
+    
+    public void SetPanelQuestionInterface(GameObject panelQuestionInterface)
+    {
+        this.panelQuestionInterface = panelQuestionInterface;
+    }
+
+    // public void SetCollisions(Collisions collision)
+    // {
+    //     this.collisions = collision;
+    // }
 
     public PlayerController GetPlayerController()
     {

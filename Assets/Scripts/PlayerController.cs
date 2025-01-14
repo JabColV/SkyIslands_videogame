@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public GameObject[] gems;
     public GameObject[] diamonds;
     public GameObject[] gemEffects;
+    public BoxCollider[] boxCollider; 
     public GameObject FinalPortal;
     public GameObject box;
     public GameObject ocean;
@@ -18,6 +19,9 @@ public class PlayerController : MonoBehaviour
     public GameObject Canva1;
     public GameObject Canva2;
     public GameObject Menu;
+    public GameObject questionPanel;
+    public GameObject[] first_planks; 
+    public GameObject[] second_planks; 
     #endregion
 
     #region bool variables
@@ -42,6 +46,7 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     public float x, y, z;
     public MenuPause menuPause;
+    public QuizLogic quizLogic;
     int lifesNumber;
     public int gemsNumber;
     List<BoxCollider> boxColliders;
@@ -60,6 +65,12 @@ public class PlayerController : MonoBehaviour
         boxColliders = new List<BoxCollider>(ocean.GetComponents<BoxCollider>());
         StartCoroutine(LoadStatus());
         _gravity = 60f; // Gravedad
+        singletonPattern.SetPanelQuestionInterface(questionPanel);
+        // singletonPattern.SetCollisions(collisions);
+        // if (collisions == null)
+        // {
+        //     Debug.Log("collisions es null");
+        // }
     }
 
     public IEnumerator LoadStatus()
@@ -73,6 +84,10 @@ public class PlayerController : MonoBehaviour
         collisions.SetCoins(singletonPattern.GetDatabase().GetDataUserInfo().totalCoins);
         hasGoggles = singletonPattern.GetDatabase().GetDataUserInfo().hasGoggles;
         singletonPattern.SetHasGoggles(hasGoggles);
+        // quizLogic.ActivatePlanks(first_planks, singletonPattern.GetHasFirstPlanks());
+        // quizLogic.ActivatePlanks(second_planks, singletonPattern.GetHasSecondPlanks());
+        // boxCollider[0].enabled = !singletonPattern.GetHasFirstPlanks();
+        // boxCollider[1].enabled = !singletonPattern.GetHasSecondPlanks();
 
         //Life configuration
         if (lifesNumber == 0)

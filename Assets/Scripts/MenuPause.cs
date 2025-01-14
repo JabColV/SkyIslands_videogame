@@ -16,6 +16,10 @@ public class MenuPause : MonoBehaviour
     public void Start()
     {
         singletonPattern = SingletonPattern.Instance;
+        if (singletonPattern == null)
+        {
+            Debug.LogError("singletonPattern no está inicializado.");
+        }
     }
 
     // =========================================================================================================
@@ -70,6 +74,9 @@ public class MenuPause : MonoBehaviour
         singletonPattern.SetHasGoggles(false);
         // Restaurar el estado gana o pierde
         singletonPattern.SetWin(false);
+        // Restaurar los tabloes de las escaleras
+        // singletonPattern.SetHasFirstPlanks(false);
+        // singletonPattern.SetHasSecondPlanks(false);
         // Actualizar los datos del usuario
         singletonPattern.GetDatabase().UpdateData(new Vector3(-3.700000047683716f, 21.304550170898438f, 171.6999969482422f));
         // Desuscribirse del evento sceneLoaded para evitar múltiples suscripciones
@@ -91,8 +98,20 @@ public class MenuPause : MonoBehaviour
         singletonPattern.SetIsLoaded(false);
         // Obtener los datos del usuario
         singletonPattern.GetDatabase().GetData();
+
+        if (singletonPattern.GetDatabase() == null)
+        {
+            Debug.LogError("El objeto de la base de datos NO está configurado.");
+        }
+        else
+        {
+            Debug.LogError("El objeto de la base de datos SI está configurado.");
+        }
+
         // Esperar a que los datos se carguen completamente
         yield return new WaitUntil(() => singletonPattern.IsLoaded() == true);
+        Debug.Log("Datos cargados");
+
         if (sceneLoaded)
         {
             // Suscribirse al evento sceneLoaded antes de cargar la escena
@@ -105,13 +124,34 @@ public class MenuPause : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log("OnSceneLoaded llamado para la escena: " + scene.name);
+        if (singletonPattern == null)
+        {
+            Debug.LogError("singletonPattern es null en OnSceneLoaded.");
+            return; // Detenemos la ejecución para evitar más errores
+        }
+        GameObject welcomeInterface = singletonPattern.GetWelcomeInterface();
+        if (welcomeInterface == null)
+        {
+            Debug.LogError("GetWelcomeInterface() devolvió null.");
+            return;
+        }
+
+        GameObject mainInterface = singletonPattern.GetMainInterface();
+        if (mainInterface == null)
+        {
+            Debug.LogError("GetMainInterface() devolvió null.");
+            return;
+        }
         if (scene.name == "InitialMenu")
         {
             // Desactivar la interfaz de bienvenida y activar la interfaz principal
             singletonPattern.GetWelcomeInterface().SetActive(false);
             singletonPattern.GetMainInterface().SetActive(true);
 
+            Debug.Log("Escena cargada: " + scene.name);
             // Desuscribirse del evento sceneLoaded para evitar múltiples suscripciones
+            Debug.Log("Desuscribiendo del evento sceneLoaded.");
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }
