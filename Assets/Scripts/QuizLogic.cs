@@ -47,6 +47,7 @@ public class QuizLogic : MonoBehaviour
             availableIndices.Add(i);
         }
         singletonPattern.SetAvailableIndices(availableIndices);
+        questionPanel.SetActive(false);
         ShowRandomQuestion();
     }
 
@@ -55,7 +56,6 @@ public class QuizLogic : MonoBehaviour
         Debug.Log("selectedAnswer" + selectedAnswer);
         UpdateCheck(-1); // Reinicio de la selección de respuestas
         selectedAnswer = -1; // Reinicio de la respuesta seleccionada anteriormente
-        canvasScore.SetActive(false);
         Debug.Log("Nueva Lista");
         Debug.Log("Indices: " + string.Join(", ", singletonPattern.GetAvailableIndices())); 
 
