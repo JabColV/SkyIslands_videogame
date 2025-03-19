@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
 
     public TMP_Text gogglesExplanation;
     private Rigidbody playerRB;
-    private float jumpForce = 49.0f;
+    public float jumpForce = 60.0f;
     private float movementSpeed = 15.0f;
     public float RotationSpeed = 2.0f;
     private Animator anim;
@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
     int lifesNumber;
     public int gemsNumber;
     List<BoxCollider> boxColliders;
+    public Camera camera;
 
     Collisions collisions;
     SingletonPattern singletonPattern;
@@ -230,6 +231,17 @@ public class PlayerController : MonoBehaviour
         
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Forward");
+
+        // Calcula la dirección de movimiento en función de la cámara
+        Vector3 moveDirection = CalculateMovementDirection(x, z);
+
+        // Aplica el movimiento al personaje
+        if (moveDirection != Vector3.zero)
+        {
+            transform.Translate(moveDirection * movementSpeed * Time.deltaTime, Space.World);
+        }
+
+        // Actualiza las animaciones
         anim.SetFloat("VelX", x);
         anim.SetFloat("VelY", z);
 
@@ -272,7 +284,54 @@ public class PlayerController : MonoBehaviour
         goggles.SetActive(hasGoggles);
 
         HasFullGems();
-        
+
+        Debug.DrawRay(this.transform.position, floor * 1.0f, Color.red);
+        // Debug.Log(camera.transform.forward);
+        // Debug.Log(camera.transform.right);
+        Debug.Log(x);
+        Debug.Log(z);
+        if (x < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (x > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        if (z < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, -90, 0);
+        }
+        else if (z > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 90, 0);
+        }
+    }
+
+    /// <summary>
+    /// Calcula la dirección de movimiento del personaje en función de la orientación de la cámara y la entrada del jugador.
+    /// </summary>
+    /// <param name="moveX">Valor de entrada en el eje horizontal del personaje (izquierda/derecha), generalmente proveniente del teclado o joystick.</param>
+    /// <param name="moveZ">Valor de entrada en el eje vertical del personaje (adelante/atrás), generalmente proveniente del teclado o joystick.</param>
+    /// <returns>
+    /// Un Vector3 normalizado que representa la dirección en la que el personaje debe moverse, 
+    /// alineado con la vista de la cámara en el plano XZ.
+    /// </returns>
+    private Vector3 CalculateMovementDirection(float moveX, float moveZ)
+    {
+        // Obtén los vectores de dirección de la cámara
+        Vector3 cameraForward = camera.transform.forward;
+        Vector3 cameraRight = camera.transform.right;
+
+        // Ignora la componente Y para evitar movimientos no deseados hacia arriba/abajo
+        cameraForward.y = 0;
+        cameraRight.y = 0;
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        // Calcula la dirección de movimiento en función de la entrada del jugador
+        Vector3 moveDirection = (cameraForward * moveZ) + (cameraRight * moveX);
+        return moveDirection.normalized;
     }
 
     void HasFullGems()

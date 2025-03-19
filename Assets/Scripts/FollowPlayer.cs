@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
 {
-    public GameObject cameraOne;
+    public GameObject player; // Referencia al jugador
+    public Vector3 offset; // Desplazamiento de la cámara respecto al jugador
+    public float smoothSpeed = 0.025f; // Factor de suavizado (ajústalo según sea necesario)
 
-    // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            // Activa la cámara uno
-            cameraOne.SetActive(true);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            cameraOne.SetActive(false);
-        }
-    }
+        // Calcula la posición deseada de la cámara
+        Vector3 desiredPosition = player.transform.position + offset;
 
+        // Interpola suavemente entre la posición actual y la deseada
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+
+        // Actualiza la posición de la cámara
+        transform.position = smoothedPosition;
+    }
 }

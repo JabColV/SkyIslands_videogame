@@ -6,7 +6,8 @@ using TMPro;
 public class Collisions : MonoBehaviour
 {
     #region audio variables
-    public AudioClip yellAudio;
+    public AudioClip birdAudio;
+    public AudioClip crashMetalAudio;
     public AudioClip winAudio;
     public AudioClip splasAudio;
     public AudioClip gemAudio;
@@ -46,7 +47,7 @@ public class Collisions : MonoBehaviour
 
         if (other.gameObject.CompareTag("bird"))
         {
-            singletonPattern.PlaySoundEffect(yellAudio, 1.0f);
+            singletonPattern.PlaySoundEffect(birdAudio, 1.0f);
             singletonPattern.GetPlayerController().loseLife();
         }
 
@@ -91,7 +92,7 @@ public class Collisions : MonoBehaviour
         }
         if (other.gameObject.CompareTag("pinchos"))
         {
-            singletonPattern.PlaySoundEffect(yellAudio, 1.0f);
+            singletonPattern.PlaySoundEffect(crashMetalAudio, 1.0f);
             singletonPattern.GetPlayerController().loseLife();
         }
         if (other.gameObject.CompareTag("Coin"))
