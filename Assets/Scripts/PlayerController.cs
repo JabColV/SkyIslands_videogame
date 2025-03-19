@@ -218,6 +218,8 @@ public class PlayerController : MonoBehaviour
         loseLife();
         menuPause.LastMemory();
         isDrowning = false; 
+        isInWater = false;
+        singletonPattern.SetIsInWater(isInWater);
         
     }
 
@@ -286,26 +288,46 @@ public class PlayerController : MonoBehaviour
         HasFullGems();
 
         Debug.DrawRay(this.transform.position, floor * 1.0f, Color.red);
-        // Debug.Log(camera.transform.forward);
-        // Debug.Log(camera.transform.right);
-        Debug.Log(x);
-        Debug.Log(z);
-        if (x < 0)
+
+        if (!isInWater) // Si no está en el agua
         {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+            if (x < 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else if (x > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+            if (z < 0)
+            {
+                transform.rotation = Quaternion.Euler(0, -90, 0);
+            }
+            else if (z > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 90, 0);
+            }
         }
-        else if (x > 0)
+        else // Si está en el agua
         {
-            transform.rotation = Quaternion.Euler(0, 180, 0);
+            if (x < 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 90, 0);
+            }
+            else if (x > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, -90, 0);
+            }
+            if (z < 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else if (z > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, -180, 0);
+            }
         }
-        if (z < 0)
-        {
-            transform.rotation = Quaternion.Euler(0, -90, 0);
-        }
-        else if (z > 0)
-        {
-            transform.rotation = Quaternion.Euler(0, 90, 0);
-        }
+
     }
 
     /// <summary>
@@ -352,7 +374,7 @@ public class PlayerController : MonoBehaviour
             Vector3 gravity = -0.4f * Vector3.down;
             playerRB.AddForce(gravity, ForceMode.Acceleration);
 
-            Quaternion deltaRotation = Quaternion.Euler(0, x * Time.deltaTime * RotationSpeed, 0);
+            Quaternion deltaRotation = Quaternion.Euler(0, 0, 0);
             playerRB.MoveRotation(playerRB.rotation * deltaRotation);
 
             Vector3 waterMovement = transform.TransformDirection(new Vector3(0, y, 0)) * (movementSpeed*3.0f) * Time.deltaTime;
@@ -387,11 +409,12 @@ public class PlayerController : MonoBehaviour
                 boxColliders[1].enabled = false;
                 isInWater = false; 
             }
+
         }
         else
         {
             anim.SetBool("in_water", false);
-            singletonPattern.SetIsInWater(isInWater);
+            singletonPattern.SetIsInWater(false);
         }
     }
 

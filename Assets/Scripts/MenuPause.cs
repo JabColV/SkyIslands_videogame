@@ -77,6 +77,8 @@ public class MenuPause : MonoBehaviour
         // Restaurar los tabloes de las escaleras
         singletonPattern.SetHasFirstPlanks(false);
         singletonPattern.SetHasSecondPlanks(false);
+        // Restaurar el estado del agua
+        singletonPattern.SetIsInWater(false);
         // Actualizar los datos del usuario
         singletonPattern.GetDatabase().UpdateData(new Vector3(-3.700000047683716f, 21.304550170898438f, 171.6999969482422f));
         // Desuscribirse del evento sceneLoaded para evitar múltiples suscripciones
